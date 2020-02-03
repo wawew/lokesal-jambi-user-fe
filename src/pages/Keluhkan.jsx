@@ -28,7 +28,7 @@ class Keluhkan extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Kembali />
+        <Kembali path="/" />
         {this.props.loadingLokasiUser ?
           <Container fluid className="namalokasi">
             <Row>

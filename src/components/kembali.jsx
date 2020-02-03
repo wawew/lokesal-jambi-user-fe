@@ -9,7 +9,7 @@ const Kembali = props => {
     <Container fluid className="kembali">
       <Row>
         <Col className="kembali-col">
-          <div className="kembali-div" onClick={() => props.history.goBack()}>
+          <div className="kembali-div" onClick={() => props.history.push(props.path)}>
             <span className="kembali-icon"><FaChevronLeft /></span>
             <span className="kembali-nama"> Kembali</span>
           </div>

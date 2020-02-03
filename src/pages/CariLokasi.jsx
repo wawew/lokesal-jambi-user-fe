@@ -42,13 +42,13 @@ class CariLokasi extends React.Component {
       lng: koordinat[0],
       lat: koordinat[1]
     })
-    this.props.history.push("/keluhkan")
+    this.props.history.push("/petalokasi")
   }
 
   render() {
     return (
       <React.Fragment>
-        <Kembali />
+        <Kembali path="/keluhkan" />
         <Container fluid className="carilokasi-peta" onClick={() => this.props.history.push("/petalokasi")}>
           <Row>
             <Col xs="auto">

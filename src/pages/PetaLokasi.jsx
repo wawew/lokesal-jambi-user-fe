@@ -43,7 +43,7 @@ class PetaLokasi extends React.Component {
     return (
       <div>
         <div className='sidebarStyle'>
-          <Kembali />
+          <Kembali path="/carilokasi" />
         </div>
         <div className="petalokasi-marker">
           <FaMapMarkerAlt />
