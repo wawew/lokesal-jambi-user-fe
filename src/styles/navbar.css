@@ -1,0 +1,54 @@
+.navbar-button {
+  background-color: rgb(100, 170, 100);
+  color: white;
+  border: solid 5px white;
+  border-radius: 100%;
+  box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.1);
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: fixed;
+  height: 70px;
+  width: 70px;
+  text-align: center;
+  z-index: 10;
+}
+
+.navbar-button h5 {
+  font-size: 32px;
+  margin-left: 5px;
+}
+
+.navbar-row {
+  color: gray;
+  background-color: white;
+  box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.1);
+  bottom: 0;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+}
+
+.navbar-row .col {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.navbar-row h5 {
+  font-size: 23px;
+  margin-top: 8px;
+  margin-bottom: 3px;
+}
+
+.navbar-row h6 {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.navbar-color {
+  color: rgb(100, 170, 100);
+}
+
+.navbar-hidden {
+  opacity: 0;
+}

@@ -1,0 +1,8 @@
+.style {
+  background-color: rgba(0, 128, 0, 0.25);
+  min-height: 100vh;
+}
+
+.style-padding {
+  padding: 0;
+}
