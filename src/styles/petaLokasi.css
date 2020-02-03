@@ -638,3 +638,9 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.petalokasi-buttonkanan {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+}

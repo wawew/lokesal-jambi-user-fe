@@ -7,6 +7,7 @@ import '../styles/petaLokasi.css';
 import Kembali from '../components/kembali';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { Button } from 'react-bootstrap';
+import { IoMdLocate } from 'react-icons/io';
 
 mapboxgl.accessToken = store.getState().mapboxKey;
 
@@ -20,6 +21,17 @@ class PetaLokasi extends React.Component {
   clickButton = () => {
     store.setState({lng: this.state.lng, lat: this.state.lat})
     this.props.history.push("/keluhkan")
+  }
+
+  clickButtonKanan = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => this.setState({
+        lng: position.coords.longitude,
+        lat: position.coords.latitude
+      },
+        () => this.componentDidMount()
+      )
+    )
   }
 
   componentDidMount = () => {
@@ -55,6 +67,13 @@ class PetaLokasi extends React.Component {
           variant="success"
         >
           Pilih Lokasi
+        </Button>
+        <Button
+          onClick={() => this.clickButtonKanan()}
+          className="petalokasi-buttonkanan"
+          variant="light"
+        >
+          <IoMdLocate />
         </Button>
       </div>
     )
