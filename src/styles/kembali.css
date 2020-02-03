@@ -1,0 +1,18 @@
+.kembali {
+  background-color: white;
+  height: 50px;
+}
+
+.kembali-div {
+  color: rgb(80, 120, 80);
+  padding-top: 11px;
+}
+
+.kembali-div:hover {
+  cursor: pointer;
+}
+
+.kembali-div span {
+  font-size: 15px;
+  font-weight: bold;
+}

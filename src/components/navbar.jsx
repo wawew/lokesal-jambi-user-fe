@@ -1,12 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/navbar.css';
 import { FaHome, FaListAlt, FaFileSignature, FaNewspaper, FaUserCircle } from 'react-icons/fa';
 
-const Navbar = (props) => {
+const Navbar = props => {
   return (
     <Container fluid>
-      <button className="navbar-button">
+      <button className="navbar-button" onClick={() => props.history.push("/keluhkan")}>
         <h5><FaFileSignature /></h5>
       </button>
       <Row className="navbar-row">
@@ -35,4 +36,4 @@ const Navbar = (props) => {
   );
 }
 
-export default Navbar;
+export default withRouter(Navbar);
