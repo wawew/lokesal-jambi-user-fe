@@ -6,7 +6,7 @@ import Kembali from '../components/kembali';
 import NamaLokasi from '../components/namaLokasi';
 import { Form, Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import '../styles/cariLokasi.css';
-import { FaSearchLocation, FaSadTear } from 'react-icons/fa';
+import { FaMapMarkedAlt, FaSearchLocation, FaSadTear } from 'react-icons/fa';
 
 class CariLokasi extends React.Component {
   state = {
@@ -41,6 +41,16 @@ class CariLokasi extends React.Component {
     return (
       <React.Fragment>
         <Kembali />
+        <Container fluid className="carilokasi-peta">
+          <Row>
+            <Col xs="auto">
+              <h5><FaMapMarkedAlt /></h5>
+            </Col>
+            <Col className="carilokasi-peta-col">
+              <h6>Cari Lokasi di Peta</h6>
+            </Col>
+          </Row>
+        </Container>
         <Container fluid className="carilokasi">
           <Row>
             <Col>

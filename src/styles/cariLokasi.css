@@ -4,6 +4,23 @@
   padding-top: 15px;
 }
 
+.carilokasi-peta {
+  background-color: white;
+  margin-top: 10px;
+  padding-top: 15px;
+  padding-bottom: 8px;
+}
+
+.carilokasi-peta h5 {
+  color: rgba(0, 128, 0, 0.25);
+  padding-left: 3px;
+}
+
+.carilokasi-peta-col {
+  padding-top: 4px;
+  padding-left: 0!important;
+}
+
 .carilokasi button {
   display: none;
 }
