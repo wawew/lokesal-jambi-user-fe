@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'unistore/react';
 import { actions } from '../store/store';
 import Kembali from '../components/kembali';
@@ -29,7 +30,7 @@ class Keluhkan extends React.Component {
               </Col>
             </Row>
           </Container> :
-          <div onClick={() => console.log("WILDAN")}>
+          <div onClick={() => this.props.history.push("/carilokasi")}>
             <NamaLokasi lokasi={this.props.lokasiUser} />
           </div>
         }
@@ -38,4 +39,4 @@ class Keluhkan extends React.Component {
   }
 }
 
-export default connect("lokasiUser, loadingLokasiUser", actions)(Keluhkan);
+export default connect("lokasiUser, loadingLokasiUser", actions)(withRouter(Keluhkan));

@@ -10,7 +10,8 @@ const Kembali = props => {
       <Row>
         <Col className="kembali-col">
           <div className="kembali-div" onClick={() => props.history.goBack()}>
-            <FaChevronLeft /> <span>Kembali</span>
+            <span className="kembali-icon"><FaChevronLeft /></span>
+            <span className="kembali-nama"> Kembali</span>
           </div>
         </Col>
       </Row>
