@@ -7,13 +7,15 @@ const initialState = {
   tajukKota: "Tanah Pilih Pesako Betuah",
   mapboxUrl: "https://api.mapbox.com/geocoding/v5/mapbox.places/",
   mapboxKey: "pk.eyJ1Ijoic3VtYXJub3dpbGx5OTQiLCJhIjoiY2s2NHo0YzlzMDMwMjNscXdzYmo3dDV4cyJ9.bOcW5ZPZob_quslf4RP0sw",
-  lokasiUser: ""
+  lokasiUser: "",
+  loadingLokasiUser: false
 }
 
 export const store = createStore(initialState);
 
 export const actions = store => ({
   getLokasi: (state, lonlat) => {
+    store.setState({loadingLokasiUser: true});
     const request = {
       method: 'get',
       url: `${state.mapboxUrl}${lonlat[0]},${lonlat[1]}.json?access_token=${state.mapboxKey}`,
@@ -21,7 +23,10 @@ export const actions = store => ({
     }
     axios(request)
       .then(response => {
-        store.setState({lokasiUser: response.data.features[0].place_name})
+        store.setState({
+          lokasiUser: response.data.features[0].place_name,
+          loadingLokasiUser: false
+        })
       })
   }
 })

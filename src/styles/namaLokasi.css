@@ -11,7 +11,12 @@
   padding-right: 0!important;
 }
 
-.namalokasi-nama {
+.namalokasi h6 {
   font-weight: bold;
   line-height: 22px;
+  padding-top: 7px;
+}
+
+.namalokasi-loading {
+  text-align: center;
 }

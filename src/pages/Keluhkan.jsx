@@ -3,6 +3,8 @@ import { connect } from 'unistore/react';
 import { actions } from '../store/store';
 import Kembali from '../components/kembali';
 import NamaLokasi from '../components/namaLokasi';
+import { Spinner, Container, Row, Col } from 'react-bootstrap';
+import '../styles/namaLokasi.css';
 
 class Keluhkan extends React.Component {
   componentDidMount = () => {
@@ -19,12 +21,21 @@ class Keluhkan extends React.Component {
     return (
       <React.Fragment>
         <Kembali />
-        <div onClick={() => console.log("WILDAN")}>
-          <NamaLokasi lokasi={this.props.lokasiUser} />
-        </div>
+        {this.props.loadingLokasiUser ?
+          <Container fluid className="namalokasi">
+            <Row>
+              <Col className="namalokasi-loading">
+                <Spinner animation="grow" variant="success" />
+              </Col>
+            </Row>
+          </Container> :
+          <div onClick={() => console.log("WILDAN")}>
+            <NamaLokasi lokasi={this.props.lokasiUser} />
+          </div>
+        }
       </React.Fragment>
     )
   }
 }
 
-export default connect("lokasiUser", actions)(Keluhkan);
+export default connect("lokasiUser, loadingLokasiUser", actions)(Keluhkan);
