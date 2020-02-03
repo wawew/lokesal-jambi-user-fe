@@ -37,11 +37,19 @@ class CariLokasi extends React.Component {
       })
   }
 
+  clickHasil = koordinat => {
+    store.setState({
+      lng: koordinat[0],
+      lat: koordinat[1]
+    })
+    this.props.history.push("/keluhkan")
+  }
+
   render() {
     return (
       <React.Fragment>
         <Kembali />
-        <Container fluid className="carilokasi-peta">
+        <Container fluid className="carilokasi-peta" onClick={() => this.props.history.push("/petalokasi")}>
           <Row>
             <Col xs="auto">
               <h5><FaMapMarkedAlt /></h5>
@@ -91,7 +99,10 @@ class CariLokasi extends React.Component {
                 <React.Fragment>
                   {this.state.hasilPencarian.map(item => {
                     return (
-                      <div className="carilokasi-daftarhasil">
+                      <div
+                        className="carilokasi-daftarhasil"
+                        onClick={() => this.clickHasil(item.center)}
+                      >
                         <NamaLokasi lokasi={item.place_name} />
                       </div>
                     )
