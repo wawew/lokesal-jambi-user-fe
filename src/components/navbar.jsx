@@ -11,7 +11,10 @@ const Navbar = props => {
         <h5><FaFileSignature /></h5>
       </button>
       <Row className="navbar-row">
-        <Col className={props.beranda ? "navbar-color" : ""}>
+        <Col
+          className={props.beranda ? "navbar-color" : ""}
+          onClick={() => props.history.push("/")}
+        >
           <h5><FaHome /></h5>
           <h6>Beranda</h6>
         </Col>
@@ -30,7 +33,10 @@ const Navbar = props => {
         {
           localStorage.getItem("token") !== null ?
           (
-            <Col className={props.profil ? "navbar-color" : ""}>
+            <Col
+              className={props.profil ? "navbar-color" : ""}
+              onClick={() => props.history.push("/profil")}
+            >
               <h5><FaUserCircle /></h5>
               <h6>Profil</h6>
             </Col>
