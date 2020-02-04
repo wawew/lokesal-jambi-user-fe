@@ -4,6 +4,7 @@ import { store } from '../store/store';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Beranda from '../pages/Beranda';
 import Masuk from '../pages/Masuk';
+import Daftar from '../pages/Daftar';
 import Keluhkan from '../pages/Keluhkan';
 import CariLokasi from '../pages/CariLokasi';
 import PetaLokasi from '../pages/PetaLokasi';
@@ -15,6 +16,7 @@ const MainRoute = () => {
         <Switch>
           <Route exact path="/" component={Beranda} />
           <Route exact path="/masuk" component={Masuk} />
+          <Route exact path="/daftar" component={Daftar} />
           <Route exact path="/keluhkan" component={Keluhkan} />
           <Route exact path="/carilokasi" component={CariLokasi} />
           <Route exact path="/petalokasi" component={PetaLokasi} />

@@ -119,11 +119,13 @@ class Masuk extends React.Component {
                 }
               </Form>
               <h6>Belum mempunyai akun?</h6>
-              <h6
-                className="masuk-link"
-                onClick={() => this.props.history.push("/daftar")}
-              >
-                Daftar di sini
+              <h6>
+                <span
+                  className="masuk-link"
+                  onClick={() => this.props.history.push("/daftar")}
+                >
+                  Daftar di sini
+                </span>
               </h6>
             </Col>
           </Row>
