@@ -2,6 +2,7 @@ import createStore from 'unistore';
 import axios from 'axios';
 
 const initialState = {
+  urlBackend: "https://api.lokesal.online",
   logoKota: "https://jambikota.go.id/new/wp-content/uploads/Logojmb_edited2.jpg",
   namaKota: "Jambi",
   tajukKota: "Tanah Pilih Pesako Betuah",

@@ -8,7 +8,7 @@ const Widget = props => {
   } else if (props.tipe === "suhu") {
     return <h6>{props.data | 0}<span>&#8451;</span></h6>;
   } else if (props.tipe === "kelembapan") {
-    return <h6>{props.data}<WiHumidity /></h6>;
+    return <h6 className="widget-kelembapan">{props.data}<span><WiHumidity /></span></h6>;
   }
 }
 

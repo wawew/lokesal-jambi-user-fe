@@ -30,7 +30,7 @@
   color: rgb(80, 120, 80);
   font-size: 30px;
   font-weight: bold;
-  margin-top: 28px;
+  margin-top: 32px;
 }
 
 .widget span {
@@ -40,4 +40,12 @@
 
 .widget-spinner {
   margin-top: 32px;
+}
+
+.widget-kelembapan {
+  transform: translateY(-10px);
+}
+
+.widget-kelembapan span {
+  font-size: 40px;
 }
