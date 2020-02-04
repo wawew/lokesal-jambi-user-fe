@@ -1,0 +1,68 @@
+.masuk {
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  width: 90%!important;
+}
+
+.masuk img {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  max-width: 75%;
+}
+
+.masuk label {
+  margin-bottom: 0;
+}
+
+.masuk button {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.masuk h6 {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.masuk-link {
+  color: rgb(80, 120, 80);
+}
+
+.masuk-email:focus {
+  border-color: red!important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25)!important;
+}
+
+.masuk-emailtext {
+  color: red;
+}
+
+.masuk .form-group {
+  margin-bottom: 10px;
+}
+
+.masuk-spinner {
+  margin-top: 12px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.masuk-password {
+  position: relative;
+}
+
+.masuk-showpassword {
+  color: rgb(150, 150, 150);
+  position: absolute;
+  top: 30px;
+  right: 10px;
+}
