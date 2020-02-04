@@ -7,7 +7,11 @@ import { FaHome, FaListAlt, FaFileSignature, FaNewspaper, FaSignInAlt, FaUserCir
 const Navbar = props => {
   return (
     <Container fluid>
-      <button className="navbar-button" onClick={() => props.history.push("/keluhkan")}>
+      <button
+        className="navbar-button"
+        onClick={() => props.history.push("/keluhkan")}
+        disabled={localStorage.getItem('token') === null ? true : false}
+      >
         <h5><FaFileSignature /></h5>
       </button>
       <Row className="navbar-row">
