@@ -9,6 +9,7 @@ import Profil from '../pages/Profil';
 import Keluhkan from '../pages/Keluhkan';
 import CariLokasi from '../pages/CariLokasi';
 import PetaLokasi from '../pages/PetaLokasi';
+import NotFound from '../pages/NotFound';
 
 const MainRoute = () => {
   return (
@@ -22,6 +23,7 @@ const MainRoute = () => {
           <Route exact path="/keluhkan" component={Keluhkan} />
           <Route exact path="/carilokasi" component={CariLokasi} />
           <Route exact path="/petalokasi" component={PetaLokasi} />
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     </Provider>
