@@ -1,0 +1,31 @@
+.header {
+  background-color: white;
+}
+
+.header-image {
+  margin-left: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.header-image img {
+  height: 75px;
+}
+
+.header-title {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 15px;
+}
+
+.header-title h1 {
+  font-size: 25px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.header-title p {
+  color: rgba(0, 128, 0, 0.5);
+  font-size: 15px;
+  margin-bottom: 0;
+}

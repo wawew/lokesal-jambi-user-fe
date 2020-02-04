@@ -1,0 +1,60 @@
+.carilokasi {
+  background-color: white;
+  margin-top: 10px;
+  padding-top: 15px;
+}
+
+.carilokasi-peta {
+  background-color: white;
+  margin-top: 10px;
+  padding-top: 15px;
+  padding-bottom: 8px;
+}
+
+.carilokasi-peta h5 {
+  color: rgba(0, 128, 0, 0.25);
+  padding-left: 3px;
+}
+
+.carilokasi-peta-col {
+  padding-top: 4px;
+  padding-left: 0!important;
+}
+
+.carilokasi button {
+  display: none;
+}
+
+.carilokasi-hasil {
+  background-color: white;
+}
+
+.carilokasi-loading {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.carilokasi-awal {
+  text-align: center;
+}
+
+.carilokasi-awal h5 {
+  color: rgba(0, 128, 0, 0.25);
+  font-size: 100px;
+  margin-top: 10px;
+}
+
+.carilokasi-awal h6 {
+  padding: 30px 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.carilokasi-daftarhasil {
+  border-top: solid 1px rgb(220, 220, 220);
+}
+
+.carilokasi-daftarhasil .namalokasi {
+  margin-top: 2px;
+}

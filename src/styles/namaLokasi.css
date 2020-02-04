@@ -1,0 +1,22 @@
+.namalokasi {
+  background-color: white;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.namalokasi-icon {
+  color: rgb(180, 0, 0);
+  font-size: 20px;
+  padding-right: 0!important;
+}
+
+.namalokasi h6 {
+  font-weight: bold;
+  line-height: 22px;
+  padding-top: 7px;
+}
+
+.namalokasi-loading {
+  text-align: center;
+}

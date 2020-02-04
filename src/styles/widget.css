@@ -1,0 +1,43 @@
+.widget {
+  margin-top: 15px;
+}
+
+.widget .row {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.widget .col {
+  background-color: white;
+  height: 100px;
+  padding: 0;
+  text-align: center;
+}
+
+.widget-left {
+  border-right: solid 2px rgba(0, 128, 0, 0.25);
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+}
+
+.widget-right {
+  border-left: solid 2px rgba(0, 128, 0, 0.25);
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.widget h6 {
+  color: rgb(80, 120, 80);
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 28px;
+}
+
+.widget span {
+  font-size: 28px;
+  font-weight: normal;
+}
+
+.widget-spinner {
+  margin-top: 32px;
+}

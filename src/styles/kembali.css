@@ -1,0 +1,23 @@
+.kembali {
+  background-color: white;
+  height: 50px;
+}
+
+.kembali-div {
+  color: rgb(80, 120, 80);
+  padding-top: 11px;
+  width: fit-content;
+}
+
+.kembali-div:hover {
+  cursor: pointer;
+}
+
+.kembali-icon {
+  font-size: 18px;
+}
+
+.kembali-nama {
+  font-size: 15px;
+  font-weight: bold;
+}
