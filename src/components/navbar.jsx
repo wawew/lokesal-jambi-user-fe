@@ -3,14 +3,18 @@ import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/navbar.css';
 import { FaHome, FaListAlt, FaFileSignature, FaNewspaper, FaSignInAlt, FaUserCircle } from 'react-icons/fa';
+import swal from 'sweetalert';
 
 const Navbar = props => {
   return (
     <Container fluid>
       <button
         className="navbar-button"
-        onClick={() => props.history.push("/keluhkan")}
-        disabled={localStorage.getItem('token') === null ? true : false}
+        onClick={() => {
+          localStorage.getItem('token') === null
+          ? swal({title: "Anda belum login!", icon: "error"})
+          : props.history.push("/keluhkan")
+        }}
       >
         <h5><FaFileSignature /></h5>
       </button>
