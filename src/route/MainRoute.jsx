@@ -9,6 +9,7 @@ import Profil from '../pages/Profil';
 import Keluhkan from '../pages/Keluhkan';
 import CariLokasi from '../pages/CariLokasi';
 import PetaLokasi from '../pages/PetaLokasi';
+import Laporan from '../pages/Laporan';
 import NotFound from '../pages/NotFound';
 
 const MainRoute = () => {
@@ -23,6 +24,7 @@ const MainRoute = () => {
           <Route exact path="/keluhkan" component={Keluhkan} />
           <Route exact path="/carilokasi" component={CariLokasi} />
           <Route exact path="/petalokasi" component={PetaLokasi} />
+          <Route exact path="/laporan" component={Laporan} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>

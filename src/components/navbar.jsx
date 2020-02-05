@@ -26,7 +26,10 @@ const Navbar = props => {
           <h5><FaHome /></h5>
           <h6>Beranda</h6>
         </Col>
-        <Col className={props.laporan ? "navbar-color" : ""}>
+        <Col
+          className={props.laporan ? "navbar-color" : ""}
+          onClick={() => props.history.push('/laporan')}
+        >
           <h5><FaListAlt /></h5>
           <h6>Laporan</h6>
         </Col>
