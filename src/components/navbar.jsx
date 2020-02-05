@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 
 const Navbar = props => {
   return (
-    <Container fluid>
+    <Container fluid className="navbar">
       <button
         className="navbar-button"
         onClick={() => {

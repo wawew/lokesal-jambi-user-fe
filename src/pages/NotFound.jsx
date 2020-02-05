@@ -1,7 +1,7 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
-import '../styles/notFound.css';
+import React from "react";
+import { withRouter } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
+import "../styles/notFound.css";
 
 const NotFound = props => {
   return (
@@ -10,11 +10,14 @@ const NotFound = props => {
         <Col>
           <h1>404</h1>
           <h2>Maaf, halaman yang anda cari tidak ada</h2>
-          <h3>Kembali ke <span onClick={() => props.history.push('/')}>Beranda</span></h3>
+          <h3>
+            Kembali ke{" "}
+            <span onClick={() => props.history.push("/")}>Beranda</span>
+          </h3>
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
 export default withRouter(NotFound);

@@ -1,7 +1,3 @@
-.laporan-total {
-  margin-top: 15px;
-}
-
 .laporan-total .col {
   background-color: white;
   border-radius: 10px;
@@ -45,4 +41,23 @@
 .laporan-total-spinner {
   margin-top: 30px;
   margin-bottom: 30px;
+}
+
+.laporan-daftar {
+  background-color: white;
+  margin-top: 15px;
+  padding-top: 15px;
+  padding-bottom: 90px;
+}
+
+.laporan-daftar h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.laporan-daftar h6 {
+  color: rgb(80, 120, 80);
+  margin-top: 2px;
+  margin-bottom: 0;
 }

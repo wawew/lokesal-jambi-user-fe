@@ -1,7 +1,7 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import '../styles/header.css';
-import { store } from '../store/store';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import "../styles/header.css";
+import { store } from "../store/store";
 
 const Header = () => {
   return (
@@ -18,6 +18,6 @@ const Header = () => {
       </Row>
     </Container>
   );
-}
+};
 
 export default Header;

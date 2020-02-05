@@ -1,16 +1,16 @@
-import React from 'react';
-import { Provider } from 'unistore/react';
-import { store } from '../store/store';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Beranda from '../pages/Beranda';
-import Masuk from '../pages/Masuk';
-import Daftar from '../pages/Daftar';
-import Profil from '../pages/Profil';
-import Keluhkan from '../pages/Keluhkan';
-import CariLokasi from '../pages/CariLokasi';
-import PetaLokasi from '../pages/PetaLokasi';
-import Laporan from '../pages/Laporan';
-import NotFound from '../pages/NotFound';
+import React from "react";
+import { Provider } from "unistore/react";
+import { store } from "../store/store";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Beranda from "../pages/Beranda";
+import Masuk from "../pages/Masuk";
+import Daftar from "../pages/Daftar";
+import Profil from "../pages/Profil";
+import Keluhkan from "../pages/Keluhkan";
+import CariLokasi from "../pages/CariLokasi";
+import PetaLokasi from "../pages/PetaLokasi";
+import Laporan from "../pages/Laporan";
+import NotFound from "../pages/NotFound";
 
 const MainRoute = () => {
   return (

@@ -1,27 +1,69 @@
-import React from 'react';
-import axios from 'axios';
-import { withRouter } from 'react-router-dom';
-import { store } from '../store/store';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
-import Header from '../components/header';
-import Navbar from '../components/navbar';
-import '../styles/laporan.css';
+import React from "react";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+import { store } from "../store/store";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import Header from "../components/header";
+import Navbar from "../components/navbar";
+import DaftarLaporan from "../components/daftarLaporan";
+import "../styles/laporan.css";
 
 class Laporan extends React.Component {
   state = {
     totalDiterima: 0,
     totalDiproses: 0,
     totalSelesai: 0,
-    loadingTotal: false
-  }
+    loadingTotal: false,
+    daftarLaporan: [
+      {
+        nama_depan: "Wildan",
+        nama_belakang: "Firdaus",
+        detail_keluhan: {
+          dibuat: "2020-02-04T23:33:00",
+          diperbarui: "2020-02-04T23:33:00",
+          foto_sebelum:
+            "https://imgx.gridoto.com/crop/0x0:0x0/700x465/photo/gridoto/2017/10/06/1411809991.jpg",
+          longitude: "0",
+          latitude: "0",
+          isi: "Keluhanku adalah itu pokoknya",
+          total_dukungan: 0,
+          total_komentar: 0,
+          status: "diproses"
+        }
+      },
+      {
+        nama_depan: "Wildan",
+        nama_belakang: "Firdaus",
+        detail_keluhan: {
+          dibuat: "2020-02-04T23:33:00",
+          diperbarui: "2020-02-04T23:33:00",
+          foto_sebelum:
+            "https://imgx.gridoto.com/crop/0x0:0x0/700x465/photo/gridoto/2017/10/06/1411809991.jpg",
+          longitude: "0",
+          latitude: "0",
+          isi: "Keluhanku adalah itu pokoknya",
+          total_dukungan: 0,
+          total_komentar: 0,
+          status: "selesai"
+        }
+      }
+    ],
+    loadingDaftarLaporan: false
+  };
 
   componentDidMount = () => {
-    this.setState({loadingTotal: true})
+    this.setState({
+      loadingTotal: true,
+      loadingDaftarLaporan: true,
+      loadingDaftarLokasi: true
+    });
     const request = {
-      method: 'get',
-      url: `${store.getState().urlBackend}/total_keluhan?kota=${store.getState().namaKota}`,
-      headers: {'Content-Type': 'application/json'}
-    }
+      method: "get",
+      url: `${store.getState().urlBackend}/total_keluhan?kota=${
+        store.getState().namaKota
+      }`,
+      headers: { "Content-Type": "application/json" }
+    };
     axios(request)
       .then(response => {
         this.setState({
@@ -29,12 +71,12 @@ class Laporan extends React.Component {
           totalDiproses: response.data.diproses,
           totalSelesai: response.data.selesai,
           loadingTotal: false
-        })
+        });
       })
       .catch(() => {
-        this.setState({loadingTotal: false})
-      })
-  }
+        this.setState({ loadingTotal: false });
+      });
+  };
 
   render() {
     return (
@@ -44,39 +86,76 @@ class Laporan extends React.Component {
         <Container className="laporan-total">
           <Row>
             <Col className="laporan-total-kiri">
-              {
-                this.state.loadingTotal
-                ? <Spinner className="laporan-total-spinner" animation="grow" variant="success" />
-                : <div>
+              {this.state.loadingTotal ? (
+                <Spinner
+                  className="laporan-total-spinner"
+                  animation="grow"
+                  variant="success"
+                />
+              ) : (
+                <div>
                   <h3>{this.state.totalDiterima}</h3>
                   <h6>Keluhan Diterima</h6>
                 </div>
-              }
+              )}
             </Col>
             <Col className="laporan-total-tengah">
-              {
-                this.state.loadingTotal
-                ? <Spinner className="laporan-total-spinner" animation="grow" variant="success" />
-                : <div>
+              {this.state.loadingTotal ? (
+                <Spinner
+                  className="laporan-total-spinner"
+                  animation="grow"
+                  variant="success"
+                />
+              ) : (
+                <div>
                   <h3>{this.state.totalDiproses}</h3>
                   <h6>Sedang Diproses</h6>
                 </div>
-              }
+              )}
             </Col>
             <Col className="laporan-total-kanan">
-              {
-                this.state.loadingTotal
-                ? <Spinner className="laporan-total-spinner" animation="grow" variant="success" />
-                : <div>
+              {this.state.loadingTotal ? (
+                <Spinner
+                  className="laporan-total-spinner"
+                  animation="grow"
+                  variant="success"
+                />
+              ) : (
+                <div>
                   <h3>{this.state.totalSelesai}</h3>
                   <h6>Laporan Selesai</h6>
                 </div>
-              }
+              )}
             </Col>
           </Row>
         </Container>
+        <Container fluid className="laporan-daftar">
+          <Row>
+            <Col>
+              <h2>LAPORAN TERKINI</h2>
+            </Col>
+            <Col xs="auto">
+              <h6 onClick={() => this.props.history.push("/keluhanku")}>
+                Keluhanku
+              </h6>
+            </Col>
+          </Row>
+          {this.state.daftarLaporan.map(item => {
+            return (
+              <DaftarLaporan
+                nama_depan={item.nama_depan}
+                nama_belakang={item.nama_belakang}
+                foto_sebelum={item.detail_keluhan.foto_sebelum}
+                status={item.detail_keluhan.status}
+                dibuat={item.detail_keluhan.dibuat}
+                longitude={item.detail_keluhan.longitude}
+                latitude={item.detail_keluhan.latitude}
+              />
+            );
+          })}
+        </Container>
       </React.Fragment>
-    )
+    );
   }
 }
 

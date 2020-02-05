@@ -55,7 +55,11 @@ class CariLokasi extends React.Component {
     return (
       <React.Fragment>
         <Kembali path="/keluhkan" />
-        <Container fluid className="carilokasi-peta" onClick={() => this.props.history.push("/petalokasi")}>
+        <Container
+          fluid
+          className="carilokasi-peta"
+          onClick={() => this.props.history.push("/petalokasi")}
+        >
           <Row>
             <Col xs="auto">
               <h5><FaMapMarkedAlt /></h5>
