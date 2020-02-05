@@ -9,6 +9,9 @@ import '../styles/namaLokasi.css';
 
 class Keluhkan extends React.Component {
   componentDidMount = () => {
+    if (localStorage.getItem('token') === null) {
+      this.props.history.push('/masuk')
+    }
     // Get lokasi user
     if (store.getState().lng === 0 && store.getState().lat === 0) {
       navigator.geolocation.getCurrentPosition(

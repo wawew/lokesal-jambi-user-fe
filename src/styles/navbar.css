@@ -27,6 +27,7 @@
   position: fixed;
   text-align: center;
   width: 100%;
+  max-width: 500px;
 }
 
 .navbar-row .col {

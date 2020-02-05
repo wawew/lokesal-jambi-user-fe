@@ -15,6 +15,12 @@ class CariLokasi extends React.Component {
     loading: false
   }
 
+  componentDidMount = () => {
+    if (localStorage.getItem('token') === null) {
+      this.props.history.push('/masuk')
+    }
+  }
+
   cariLokasi = () => {
     this.setState({loading: true});
     const request = {

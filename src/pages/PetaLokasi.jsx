@@ -35,6 +35,10 @@ class PetaLokasi extends React.Component {
   }
 
   componentDidMount = () => {
+    if (localStorage.getItem('token') === null) {
+      this.props.history.push('/masuk')
+    }
+
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v11',
