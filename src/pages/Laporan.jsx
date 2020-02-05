@@ -29,7 +29,8 @@ class Laporan extends React.Component {
           isi: "Keluhanku adalah itu pokoknya",
           total_dukungan: 0,
           total_komentar: 0,
-          status: "diterima"
+          status: "diterima",
+          anonim: false
         }
       },
       {
@@ -46,7 +47,8 @@ class Laporan extends React.Component {
           isi: "Keluhanku adalah itu pokoknya",
           total_dukungan: 0,
           total_komentar: 0,
-          status: "diproses"
+          status: "diproses",
+          anonim: true
         }
       },
       {
@@ -63,7 +65,8 @@ class Laporan extends React.Component {
           isi: "Keluhanku adalah itu pokoknya",
           total_dukungan: 0,
           total_komentar: 0,
-          status: "selesai"
+          status: "selesai",
+          anonim: false
         }
       }
     ],
@@ -170,6 +173,7 @@ class Laporan extends React.Component {
                 latitude={item.detail_keluhan.latitude}
                 dibuat={item.detail_keluhan.dibuat}
                 status={item.detail_keluhan.status}
+                anonim={item.detail_keluhan.anonim}
               />
             );
           })}

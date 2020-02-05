@@ -53,7 +53,9 @@ class DaftarLaporan extends React.Component {
               <div className="daftarlaporan-icon">
                 <FaUser />
               </div>{" "}
-              {this.props.nama_depan} {this.props.nama_belakang}
+              {this.props.anonim
+                ? "Anonim"
+                : `${this.props.nama_depan} ${this.props.nama_belakang}`}
             </h1>
             <h4>
               <div className="daftarlaporan-icon">

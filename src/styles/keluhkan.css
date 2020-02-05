@@ -1,0 +1,47 @@
+.keluhkan-textarea {
+  background-color: white;
+  margin-top: 10px;
+  padding-top: 17px;
+  padding-bottom: 22px;
+}
+
+.keluhkan-textarea label {
+  margin-bottom: 0;
+}
+
+.keluhkan-textarea button {
+  display: block;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.keluhkan-foto {
+  background-color: white;
+  margin-top: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.keluhkan-foto-kosong {
+  background-color: rgb(220, 220, 220);
+  border-radius: 10px;
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 50px;
+  padding-top: 40px;
+}
+
+.keluhkan-foto h6 {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  font-weight: bold;
+  color: black;
+  transform: translateX(-50%);
+}
