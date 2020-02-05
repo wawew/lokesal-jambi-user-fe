@@ -9,7 +9,10 @@ import "../styles/namaLokasi.css";
 
 class Keluhkan extends React.Component {
   componentDidMount = () => {
-    if (localStorage.getItem("token") === null) {
+    if (
+      localStorage.getItem("token") === null ||
+      localStorage.getItem("terverifikasi") === "false"
+    ) {
       this.props.history.push("/masuk");
     }
     // Get lokasi user

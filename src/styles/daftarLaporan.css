@@ -16,6 +16,10 @@
 }
 
 .daftarlaporan h1 {
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 15px;
   font-weight: bold;
   margin-bottom: 5px;
@@ -33,6 +37,10 @@
 }
 
 .daftarlaporan h4 {
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 15px;
   margin-bottom: 5px;
 }

@@ -17,8 +17,26 @@ class Laporan extends React.Component {
     daftarLaporan: [
       {
         nama_depan: "Wildan",
+        nama_belakang: "Firdaussssssssssssssssssss",
+        detail_keluhan: {
+          id: 1,
+          dibuat: "2020-02-04T23:33:00",
+          diperbarui: "2020-02-04T23:33:00",
+          foto_sebelum:
+            "https://imgx.gridoto.com/crop/0x0:0x0/700x465/photo/gridoto/2017/10/06/1411809991.jpg",
+          longitude: "112",
+          latitude: "-7",
+          isi: "Keluhanku adalah itu pokoknya",
+          total_dukungan: 0,
+          total_komentar: 0,
+          status: "diterima"
+        }
+      },
+      {
+        nama_depan: "Wildan",
         nama_belakang: "Firdaus",
         detail_keluhan: {
+          id: 2,
           dibuat: "2020-02-04T23:33:00",
           diperbarui: "2020-02-04T23:33:00",
           foto_sebelum:
@@ -35,6 +53,7 @@ class Laporan extends React.Component {
         nama_depan: "Wildan",
         nama_belakang: "Firdaus",
         detail_keluhan: {
+          id: 3,
           dibuat: "2020-02-04T23:33:00",
           diperbarui: "2020-02-04T23:33:00",
           foto_sebelum:
@@ -143,13 +162,14 @@ class Laporan extends React.Component {
           {this.state.daftarLaporan.map(item => {
             return (
               <DaftarLaporan
+                id={item.detail_keluhan.id}
+                foto_sebelum={item.detail_keluhan.foto_sebelum}
                 nama_depan={item.nama_depan}
                 nama_belakang={item.nama_belakang}
-                foto_sebelum={item.detail_keluhan.foto_sebelum}
-                status={item.detail_keluhan.status}
-                dibuat={item.detail_keluhan.dibuat}
                 longitude={item.detail_keluhan.longitude}
                 latitude={item.detail_keluhan.latitude}
+                dibuat={item.detail_keluhan.dibuat}
+                status={item.detail_keluhan.status}
               />
             );
           })}

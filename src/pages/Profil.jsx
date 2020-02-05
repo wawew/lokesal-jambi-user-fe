@@ -23,6 +23,7 @@ class Profil extends React.Component {
       if (willDelete) {
         localStorage.removeItem("token");
         localStorage.removeItem("id");
+        localStorage.removeItem("terverifikasi");
         this.props.history.push("/masuk");
       }
     });

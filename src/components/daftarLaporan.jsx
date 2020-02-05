@@ -39,7 +39,11 @@ class DaftarLaporan extends React.Component {
 
   render() {
     return (
-      <Container fluid className="daftarlaporan">
+      <Container
+        fluid
+        className="daftarlaporan"
+        onClick={() => this.props.history.push(`/laporan/${this.props.id}`)}
+      >
         <Row>
           <Col xs="auto" className="daftarlaporan-col">
             <img alt="foto" src={this.props.foto_sebelum} />
