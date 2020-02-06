@@ -15,6 +15,8 @@ import swal from "sweetalert";
 import axios from "axios";
 
 class Keluhkan extends React.Component {
+  state = { loading: false };
+
   ubahFoto = event => {
     store.setState({ uriFoto: "" });
     const fileFoto = event.target.files[0];
@@ -46,7 +48,9 @@ class Keluhkan extends React.Component {
   };
 
   kirimKeluhan = () => {
+    this.setState({ loading: true });
     if (this.props.isiKeluhan === "") {
+      this.setState({ loading: false });
       swal(
         "Kirim keluhan gagal!",
         "Isian keterangan keluhan harus diisi",
@@ -75,7 +79,7 @@ class Keluhkan extends React.Component {
           uploadTask.on(
             "state_changed",
             () => console.log("..."),
-            error => console.warn(error),
+            () => this.setState({ loading: false }),
             () => {
               storage
                 .ref("keluhan")
@@ -100,10 +104,12 @@ class Keluhkan extends React.Component {
                   };
                   axios(request)
                     .then(response => {
+                      this.setState({ loading: false });
                       store.setState({ isiKeluhan: "", anonim: false });
                       this.props.history.push(`/keluhan/${response.data.id}`);
                     })
                     .catch(() => {
+                      this.setState({ loading: false });
                       swal(
                         "Kirim keluhan gagal!",
                         "Silahkan coba lagi",
@@ -114,6 +120,7 @@ class Keluhkan extends React.Component {
             }
           );
         } else {
+          this.setState({ loading: false });
           swal(
             "Kirim keluhan gagal!",
             "Ekstensi file foto harus jpg, jpeg, atau png",
@@ -138,6 +145,7 @@ class Keluhkan extends React.Component {
         };
         axios(request)
           .then(response => {
+            this.setState({ loading: false });
             store.setState({
               isiKeluhan: "",
               anonim: false,
@@ -149,6 +157,7 @@ class Keluhkan extends React.Component {
             this.props.history.push(`/keluhan/${response.data.id}`);
           })
           .catch(() => {
+            this.setState({ loading: false });
             swal("Kirim keluhan gagal!", "Silahkan coba lagi", "error");
           });
       }
@@ -268,13 +277,23 @@ class Keluhkan extends React.Component {
                     onChange={() => this.cekAnonim()}
                   />
                 </Form.Group>
-                <Button
-                  variant="success"
-                  type="submit"
-                  onClick={() => this.kirimKeluhan()}
-                >
-                  Kirim Keluhan
-                </Button>
+                {this.state.loading ? (
+                  <Container fluid className="namalokasi">
+                    <Row>
+                      <Col className="namalokasi-loading">
+                        <Spinner animation="grow" variant="success" />
+                      </Col>
+                    </Row>
+                  </Container>
+                ) : (
+                  <Button
+                    variant="success"
+                    type="submit"
+                    onClick={() => this.kirimKeluhan()}
+                  >
+                    Kirim Keluhan
+                  </Button>
+                )}
               </Form>
             </Col>
           </Row>
