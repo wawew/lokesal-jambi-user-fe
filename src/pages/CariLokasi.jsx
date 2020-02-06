@@ -1,58 +1,75 @@
-import React from 'react';
-import axios from 'axios';
-import { withRouter } from 'react-router-dom';
-import { store } from '../store/store';
-import Kembali from '../components/kembali';
-import NamaLokasi from '../components/namaLokasi';
-import { Form, Container, Row, Col, Button, Spinner } from 'react-bootstrap';
-import '../styles/cariLokasi.css';
-import { FaMapMarkedAlt, FaSearchLocation, FaSadTear } from 'react-icons/fa';
+import React from "react";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+import { store } from "../store/store";
+import Kembali from "../components/kembali";
+import NamaLokasi from "../components/namaLokasi";
+import { Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import "../styles/cariLokasi.css";
+import { FaMapMarkedAlt, FaSearchLocation, FaSadTear } from "react-icons/fa";
 
 class CariLokasi extends React.Component {
   state = {
     kataKunci: "",
     hasilPencarian: "",
     loading: false
-  }
+  };
+
+  componentDidMount = () => {
+    if (
+      localStorage.getItem("token") === null ||
+      localStorage.getItem("terverifikasi") === "false"
+    ) {
+      this.props.history.push("/masuk");
+    }
+  };
 
   cariLokasi = () => {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     const request = {
-      method: 'get',
-      url: `${store.getState().mapboxUrl}${this.state.kataKunci}.json?access_token=${store.getState().mapboxKey}`,
-      headers: {'Content-Type': 'application/json'}
-    }
+      method: "get",
+      url: `${store.getState().mapboxUrl}${
+        this.state.kataKunci
+      }.json?access_token=${store.getState().mapboxKey}`,
+      headers: { "Content-Type": "application/json" }
+    };
     axios(request)
       .then(response => {
         this.setState({
           hasilPencarian: response.data.features,
           loading: false
-        })
+        });
       })
       .catch(() => {
         this.setState({
           hasilPencarian: [],
           loading: false
-        })
-      })
-  }
+        });
+      });
+  };
 
   clickHasil = koordinat => {
     store.setState({
       lng: koordinat[0],
       lat: koordinat[1]
-    })
-    this.props.history.push("/petalokasi")
-  }
+    });
+    this.props.history.push("/petalokasi");
+  };
 
   render() {
     return (
       <React.Fragment>
         <Kembali path="/keluhkan" />
-        <Container fluid className="carilokasi-peta" onClick={() => this.props.history.push("/petalokasi")}>
+        <Container
+          fluid
+          className="carilokasi-peta"
+          onClick={() => this.props.history.push("/petalokasi")}
+        >
           <Row>
             <Col xs="auto">
-              <h5><FaMapMarkedAlt /></h5>
+              <h5>
+                <FaMapMarkedAlt />
+              </h5>
             </Col>
             <Col className="carilokasi-peta-col">
               <h6>Cari Lokasi di Peta</h6>
@@ -67,7 +84,9 @@ class CariLokasi extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Cari Lokasi"
-                    onChange={event => this.setState({kataKunci: event.target.value})}
+                    onChange={event =>
+                      this.setState({ kataKunci: event.target.value })
+                    }
                   />
                 </Form.Group>
                 <Button type="submit" onClick={() => this.cariLokasi()}>
@@ -80,22 +99,25 @@ class CariLokasi extends React.Component {
         <Container fluid className="carilokasi-hasil">
           <Row>
             <Col>
-              {
-                this.state.loading ?
+              {this.state.loading ? (
                 <div className="carilokasi-loading">
                   <Spinner animation="grow" variant="success" />
                 </div>
-                : this.state.hasilPencarian === "" ? 
+              ) : this.state.hasilPencarian === "" ? (
                 <div className="carilokasi-awal">
-                  <h5><FaSearchLocation /></h5>
+                  <h5>
+                    <FaSearchLocation />
+                  </h5>
                   <h6>Cari Lokasi Masalah yang Ingin Anda Laporkan</h6>
                 </div>
-                : this.state.hasilPencarian.length === 0 ?
+              ) : this.state.hasilPencarian.length === 0 ? (
                 <div className="carilokasi-awal">
-                  <h5><FaSadTear /></h5>
+                  <h5>
+                    <FaSadTear />
+                  </h5>
                   <h6>Lokasi yang Kamu Cari Tidak Ditemukan</h6>
                 </div>
-                :
+              ) : (
                 <React.Fragment>
                   {this.state.hasilPencarian.map(item => {
                     return (
@@ -105,15 +127,15 @@ class CariLokasi extends React.Component {
                       >
                         <NamaLokasi lokasi={item.place_name} />
                       </div>
-                    )
+                    );
                   })}
                 </React.Fragment>
-              }
+              )}
             </Col>
           </Row>
         </Container>
       </React.Fragment>
-    )
+    );
   }
 }
 

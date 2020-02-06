@@ -1,6 +1,6 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const NamaLokasi = props => {
   return (
@@ -15,6 +15,6 @@ const NamaLokasi = props => {
       </Row>
     </Container>
   );
-}
+};
 
 export default NamaLokasi;

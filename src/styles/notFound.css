@@ -1,0 +1,23 @@
+.notfound {
+  text-align: center;
+}
+
+.notfound h1 {
+  color: rgb(80, 120, 80);
+  font-size: 100px;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.notfound h2 {
+  font-size: 25px;
+}
+
+.notfound h3 {
+  font-size: 25px;
+  margin-top: 50px;
+}
+
+.notfound span {
+  color: rgb(80, 120, 80);
+}

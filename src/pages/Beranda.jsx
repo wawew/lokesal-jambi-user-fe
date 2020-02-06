@@ -1,11 +1,11 @@
-import React from 'react';
-import axios from 'axios';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
-import '../styles/widget.css';
-import { store } from '../store/store';
-import Header from '../components/header';
-import Navbar from '../components/navbar';
-import Widget from '../components/widget';
+import React from "react";
+import axios from "axios";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import "../styles/widget.css";
+import { store } from "../store/store";
+import Header from "../components/header";
+import Navbar from "../components/navbar";
+import Widget from "../components/widget";
 
 class Beranda extends React.Component {
   state = {
@@ -17,30 +17,31 @@ class Beranda extends React.Component {
     loadingWidget: true,
     daftarBerita: [],
     loadingBerita: true
-  }
+  };
 
   componentDidMount = () => {
     // Get data untuk widget
     const request = {
-      method: 'get',
-      url: `${this.state.weatherUrl}?APPID=${this.state.weatherKey}&q=${store.getState().namaKota}&units=metric`,
-      headers: {'Content-Type': 'application/json'}
-    }
-    axios(request)
-      .then(response => {
-        this.setState({
-          cuaca: response.data.weather[0].icon,
-          suhu: response.data.main.temp,
-          kelembapan: response.data.main.humidity,
-          loadingWidget: false
-        })
-      })
+      method: "get",
+      url: `${this.state.weatherUrl}?APPID=${this.state.weatherKey}&q=${
+        store.getState().namaKota
+      }&units=metric`,
+      headers: { "Content-Type": "application/json" }
+    };
+    axios(request).then(response => {
+      this.setState({
+        cuaca: response.data.weather[0].icon,
+        suhu: response.data.main.temp,
+        kelembapan: response.data.main.humidity,
+        loadingWidget: false
+      });
+    });
     // Get data untuk berita
     this.setState({
       daftarBerita: [],
       loadingBerita: false
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -50,13 +51,37 @@ class Beranda extends React.Component {
         <Container className="widget">
           <Row>
             <Col className="widget-left">
-              {this.state.loadingWidget ? <Spinner className="widget-spinner" animation="grow" variant="success" /> : <Widget tipe="cuaca" data={this.state.cuaca} />}
+              {this.state.loadingWidget ? (
+                <Spinner
+                  className="widget-spinner"
+                  animation="grow"
+                  variant="success"
+                />
+              ) : (
+                <Widget tipe="cuaca" data={this.state.cuaca} />
+              )}
             </Col>
             <Col>
-              {this.state.loadingWidget ? <Spinner className="widget-spinner" animation="grow" variant="success" /> : <Widget tipe="suhu" data={this.state.suhu} />}
+              {this.state.loadingWidget ? (
+                <Spinner
+                  className="widget-spinner"
+                  animation="grow"
+                  variant="success"
+                />
+              ) : (
+                <Widget tipe="suhu" data={this.state.suhu} />
+              )}
             </Col>
             <Col className="widget-right">
-              {this.state.loadingWidget ? <Spinner className="widget-spinner" animation="grow" variant="success" /> : <Widget tipe="kelembapan" data={this.state.kelembapan} />}
+              {this.state.loadingWidget ? (
+                <Spinner
+                  className="widget-spinner"
+                  animation="grow"
+                  variant="success"
+                />
+              ) : (
+                <Widget tipe="kelembapan" data={this.state.kelembapan} />
+              )}
             </Col>
           </Row>
         </Container>
