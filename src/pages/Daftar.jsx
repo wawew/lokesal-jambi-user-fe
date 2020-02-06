@@ -145,7 +145,7 @@ class Daftar extends React.Component {
                         : this.setState({ showPassword: true });
                     }}
                   >
-                    {this.state.showPassword ? <FaEye /> : <FaEyeSlash />}
+                    {this.state.showPassword ? <FaEyeSlash /> : <FaEye />}
                   </div>
                 </Form.Group>
                 <Form.Group className="masuk-password">
@@ -179,9 +179,9 @@ class Daftar extends React.Component {
                     }}
                   >
                     {this.state.showKonfirmasiPassword ? (
-                      <FaEye />
-                    ) : (
                       <FaEyeSlash />
+                    ) : (
+                      <FaEye />
                     )}
                   </div>
                 </Form.Group>

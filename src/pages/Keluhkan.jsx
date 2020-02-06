@@ -10,8 +10,9 @@ import { Spinner, Container, Row, Col, Form, Button } from "react-bootstrap";
 import "../styles/namaLokasi.css";
 import "../styles/keluhkan.css";
 import { FaImage } from "react-icons/fa";
-import Camera, { FACING_MODES } from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
+import swal from "sweetalert";
+import axios from "axios";
 
 class Keluhkan extends React.Component {
   state = {
@@ -20,68 +21,137 @@ class Keluhkan extends React.Component {
     linkFoto: "",
     isi: "",
     anonim: false,
-    hoverFoto: false,
-    kamera: false,
-    perangkat: false
+    namaFoto: ""
   };
 
   ubahFoto = event => {
-    if (event.target.files[0]) {
-      this.setState({
-        foto: event.target.files[0],
-        uriFoto: URL.createObjectURL(event.target.files[0]),
-        perangkat: true
-      });
+    this.setState({ uriFoto: "" });
+    const fileFoto = event.target.files[0];
+    if (fileFoto) {
+      if (
+        fileFoto.name.lastIndexOf(".") > 0 &&
+        (fileFoto.name
+          .substring(fileFoto.name.lastIndexOf(".") + 1, fileFoto.name.length)
+          .toLowerCase() === "jpg" ||
+          fileFoto.name
+            .substring(fileFoto.name.lastIndexOf(".") + 1, fileFoto.name.length)
+            .toLowerCase() === "jpeg" ||
+          fileFoto.name
+            .substring(fileFoto.name.lastIndexOf(".") + 1, fileFoto.name.length)
+            .toLowerCase() === "png")
+      ) {
+        this.setState({
+          foto: fileFoto,
+          uriFoto: URL.createObjectURL(fileFoto),
+          namaFoto: URL.createObjectURL(fileFoto)
+        });
+      } else {
+        this.setState({
+          foto: fileFoto,
+          namaFoto: URL.createObjectURL(fileFoto)
+        });
+      }
     }
   };
 
-  ambilFoto = dataUri => {
-    this.setState({ kamera: false, uriFoto: dataUri, perangkat: false });
-  };
-
   kirimKeluhan = () => {
-    if (this.state.perangkat) {
-      const link = `${moment().format()}_${this.state.foto.name}`;
-      const uploadTask = storage
-        .ref("keluhan")
-        .child(link)
-        .put(this.state.foto);
-      uploadTask.on(
-        "state_changed",
-        () => console.log("..."),
-        error => console.warn(error),
-        () => {
-          storage
-            .ref("keluhan")
-            .child(link)
-            .getDownloadURL()
-            .then(url => {
-              this.setState({ linkFoto: url });
-            });
-        }
+    if (this.state.isi === "") {
+      swal(
+        "Kirim keluhan gagal!",
+        "Isian keterangan keluhan harus diisi",
+        "error"
       );
     } else {
-      const link = `${moment().format()}_foto.png`;
-      const uploadTask = storage
-        .ref("keluhan")
-        .child(link)
-        .putString(this.state.uriFoto.slice(22), "base64", {
-          contentType: "image/png"
-        });
-      uploadTask.on(
-        "state_changed",
-        () => console.log("..."),
-        error => console.warn(error),
-        () => {
-          storage
+      if (this.state.foto !== null) {
+        const fileFoto = this.state.foto.name;
+        if (
+          fileFoto.lastIndexOf(".") > 0 &&
+          (fileFoto
+            .substring(fileFoto.lastIndexOf(".") + 1, fileFoto.length)
+            .toLowerCase() === "jpg" ||
+            fileFoto
+              .substring(fileFoto.lastIndexOf(".") + 1, fileFoto.length)
+              .toLowerCase() === "jpeg" ||
+            fileFoto
+              .substring(fileFoto.lastIndexOf(".") + 1, fileFoto.length)
+              .toLowerCase() === "png")
+        ) {
+          const link = `${moment().format()}_${this.state.foto.name}`;
+          const uploadTask = storage
             .ref("keluhan")
             .child(link)
-            .getDownloadURL()
-            .then(url => {
-              this.setState({ linkFoto: url });
-            });
+            .put(this.state.foto);
+          uploadTask.on(
+            "state_changed",
+            () => console.log("..."),
+            error => console.warn(error),
+            () => {
+              storage
+                .ref("keluhan")
+                .child(link)
+                .getDownloadURL()
+                .then(url => {
+                  this.setState({ linkFoto: url });
+                  const request = {
+                    method: "post",
+                    url: `${store.getState().urlBackend}/pengguna/keluhan`,
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                      "Content-Type": "application/json"
+                    },
+                    data: {
+                      foto_sebelum: this.state.linkFoto,
+                      longitude: store.getState().lng,
+                      latitude: store.getState().lat,
+                      isi: this.state.isi,
+                      anonim: this.state.anonim
+                    }
+                  };
+                  axios(request)
+                    .then(response => {
+                      this.props.history.push(`/keluhan/${response.data.id}`);
+                    })
+                    .catch(() => {
+                      swal(
+                        "Kirim keluhan gagal!",
+                        "Silahkan coba lagi",
+                        "error"
+                      );
+                    });
+                });
+            }
+          );
+        } else {
+          swal(
+            "Kirim keluhan gagal!",
+            "Ekstensi file foto harus jpg, jpeg, atau png",
+            "error"
+          );
         }
-      );
+      } else {
+        const request = {
+          method: "post",
+          url: `${store.getState().urlBackend}/pengguna/keluhan`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+          },
+          data: {
+            foto_sebelum: this.state.linkFoto,
+            longitude: store.getState().lng,
+            latitude: store.getState().lat,
+            isi: this.state.isi,
+            anonim: this.state.anonim
+          }
+        };
+        axios(request)
+          .then(response => {
+            this.props.history.push(`/keluhan/${response.data.id}`);
+          })
+          .catch(() => {
+            swal("Kirim keluhan gagal!", "Silahkan coba lagi", "error");
+          });
+      }
     }
   };
 
@@ -116,87 +186,97 @@ class Keluhkan extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.kamera ? (
-          <Camera
-            onTakePhoto={dataUri => this.ambilFoto(dataUri)}
-            idealFacingMode={FACING_MODES.ENVIRONMENT}
-            isImageMirror={false}
-            isMaxResolution={true}
-          />
+        <Kembali path="/" />
+        <Container fluid className="keluhkan-foto">
+          <Row>
+            <Col>
+              {this.state.uriFoto === "" ? (
+                <div className="keluhkan-foto-kosong">
+                  <FaImage />
+                </div>
+              ) : (
+                <img alt="foto" src={this.state.uriFoto} />
+              )}
+            </Col>
+          </Row>
+          <Row className="keluhkan-foto-row">
+            <Col className="keluhkan-unggah">
+              <Container>
+                <Row>
+                  <Col className="custom-file">
+                    <input
+                      type="file"
+                      className="custom-file-input"
+                      id="customFile"
+                      onChange={this.ubahFoto}
+                    />
+                    <label className="custom-file-label" htmlFor="customFile">
+                      {this.state.namaFoto === ""
+                        ? "Unggah foto"
+                        : this.state.foto.name}
+                    </label>
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+            <Col xs="auto">
+              <Button
+                variant="danger"
+                onClick={() => {
+                  document.querySelector("#customFile").value = "";
+                  this.setState({ foto: null, uriFoto: "", namaFoto: "" });
+                }}
+              >
+                Hapus
+              </Button>
+            </Col>
+          </Row>
+        </Container>
+        {this.props.loadingLokasiUser ? (
+          <Container fluid className="namalokasi">
+            <Row>
+              <Col className="namalokasi-loading">
+                <Spinner animation="grow" variant="success" />
+              </Col>
+            </Row>
+          </Container>
         ) : (
-          <div></div>
+          <div onClick={() => this.props.history.push("/carilokasi")}>
+            <NamaLokasi lokasi={this.props.lokasiUser} />
+          </div>
         )}
-        <div className={this.state.kamera ? "keluhkan-hidden" : ""}>
-          <Kembali path="/" />
-          <Container fluid className="keluhkan-foto">
-            <Row>
-              <Col>
-                {this.state.uriFoto === "" ? (
-                  <div className="keluhkan-foto-kosong">
-                    <FaImage />
-                  </div>
-                ) : (
-                  <img alt="foto" src={this.state.uriFoto} />
-                )}
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <input type="file" onChange={this.ubahFoto} />
-              </Col>
-              <Col>
-                <Button onClick={() => this.setState({ kamera: true })}>
-                  Dengan Kamera
+        <Container fluid className="keluhkan-textarea">
+          <Row>
+            <Col>
+              <Form onSubmit={event => event.preventDefault()}>
+                <Form.Group>
+                  <Form.Label>Masukkan keluhan anda</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows="3"
+                    onChange={event =>
+                      this.setState({ isi: event.target.value })
+                    }
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Check
+                    type="checkbox"
+                    label="Keluhkan sebagai anonim"
+                    onClick={() => this.cekAnonim()}
+                  />
+                </Form.Group>
+                <Button
+                  variant="success"
+                  type="submit"
+                  onClick={() => this.kirimKeluhan()}
+                >
+                  Kirim Keluhan
                 </Button>
-              </Col>
-            </Row>
-          </Container>
-          {this.props.loadingLokasiUser ? (
-            <Container fluid className="namalokasi">
-              <Row>
-                <Col className="namalokasi-loading">
-                  <Spinner animation="grow" variant="success" />
-                </Col>
-              </Row>
-            </Container>
-          ) : (
-            <div onClick={() => this.props.history.push("/carilokasi")}>
-              <NamaLokasi lokasi={this.props.lokasiUser} />
-            </div>
-          )}
-          <Container fluid className="keluhkan-textarea">
-            <Row>
-              <Col>
-                <Form onSubmit={event => event.preventDefault()}>
-                  <Form.Group>
-                    <Form.Label>Masukkan keluhan anda</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows="3"
-                      onChange={event =>
-                        this.setState({ isi: event.target.value })
-                      }
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Check
-                      type="checkbox"
-                      label="Keluhkan sebagai anonim"
-                      onClick={() => this.cekAnonim()}
-                    />
-                  </Form.Group>
-                  <Button
-                    variant="success"
-                    type="submit"
-                    onClick={() => this.kirimKeluhan()}
-                  >
-                    Kirim Keluhan
-                  </Button>
-                </Form>
-              </Col>
-            </Row>
-          </Container>
-        </div>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
       </React.Fragment>
     );
   }

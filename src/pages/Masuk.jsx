@@ -103,7 +103,7 @@ class Masuk extends React.Component {
                         : this.setState({ showPassword: true });
                     }}
                   >
-                    {this.state.showPassword ? <FaEye /> : <FaEyeSlash />}
+                    {this.state.showPassword ? <FaEyeSlash /> : <FaEye />}
                   </div>
                 </Form.Group>
                 {this.state.loading ? (

@@ -49,6 +49,19 @@
   font-size: 50px;
 }
 
-.keluhkan-hidden {
-  display: none;
+.custom-file-input:lang(en) ~ .custom-file-label::after {
+  content: "Cari" !important;
+}
+
+.custom-file-label {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.keluhkan-unggah {
+  padding-right: 0 !important;
+}
+
+.keluhkan-foto-row {
+  margin-top: 15px;
 }

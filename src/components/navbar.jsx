@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import { store } from "../store/store";
 import "../styles/navbar.css";
 import {
   FaHome,
@@ -13,6 +14,11 @@ import {
 import swal from "sweetalert";
 
 const Navbar = props => {
+  const buttonKeluhkan = () => {
+    store.setState({ lng: 0, lat: 0 });
+    props.history.push("/keluhkan");
+  };
+
   return (
     <Container fluid className="navbar">
       <button
@@ -32,7 +38,7 @@ const Navbar = props => {
                   "Silahkan mengunggah foto KTP anda untuk mengajukan verifikasi",
                 icon: "error"
               })
-            : props.history.push("/keluhkan");
+            : buttonKeluhkan();
         }}
       >
         <h5>
