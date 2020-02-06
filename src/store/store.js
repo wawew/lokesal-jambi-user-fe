@@ -13,7 +13,13 @@ const initialState = {
   lokasiUser: "",
   loadingLokasiUser: false,
   lng: 0,
-  lat: 0
+  lat: 0,
+  isiKeluhan: "",
+  anonim: false,
+  foto: null,
+  uriFoto: "",
+  linkFoto: "",
+  namaFoto: ""
 };
 
 export const store = createStore(initialState);

@@ -15,7 +15,16 @@ import swal from "sweetalert";
 
 const Navbar = props => {
   const buttonKeluhkan = () => {
-    store.setState({ lng: 0, lat: 0 });
+    store.setState({
+      lng: 0,
+      lat: 0,
+      isiKeluhan: "",
+      anonim: false,
+      foto: null,
+      uriFoto: "",
+      linkFoto: "",
+      namaFoto: ""
+    });
     props.history.push("/keluhkan");
   };
 

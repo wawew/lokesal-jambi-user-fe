@@ -15,17 +15,8 @@ import swal from "sweetalert";
 import axios from "axios";
 
 class Keluhkan extends React.Component {
-  state = {
-    foto: null,
-    uriFoto: "",
-    linkFoto: "",
-    isi: "",
-    anonim: false,
-    namaFoto: ""
-  };
-
   ubahFoto = event => {
-    this.setState({ uriFoto: "" });
+    store.setState({ uriFoto: "" });
     const fileFoto = event.target.files[0];
     if (fileFoto) {
       if (
@@ -40,13 +31,13 @@ class Keluhkan extends React.Component {
             .substring(fileFoto.name.lastIndexOf(".") + 1, fileFoto.name.length)
             .toLowerCase() === "png")
       ) {
-        this.setState({
+        store.setState({
           foto: fileFoto,
           uriFoto: URL.createObjectURL(fileFoto),
           namaFoto: URL.createObjectURL(fileFoto)
         });
       } else {
-        this.setState({
+        store.setState({
           foto: fileFoto,
           namaFoto: URL.createObjectURL(fileFoto)
         });
@@ -55,15 +46,15 @@ class Keluhkan extends React.Component {
   };
 
   kirimKeluhan = () => {
-    if (this.state.isi === "") {
+    if (this.props.isiKeluhan === "") {
       swal(
         "Kirim keluhan gagal!",
         "Isian keterangan keluhan harus diisi",
         "error"
       );
     } else {
-      if (this.state.foto !== null) {
-        const fileFoto = this.state.foto.name;
+      if (this.props.foto !== null) {
+        const fileFoto = this.props.foto.name;
         if (
           fileFoto.lastIndexOf(".") > 0 &&
           (fileFoto
@@ -76,11 +67,11 @@ class Keluhkan extends React.Component {
               .substring(fileFoto.lastIndexOf(".") + 1, fileFoto.length)
               .toLowerCase() === "png")
         ) {
-          const link = `${moment().format()}_${this.state.foto.name}`;
+          const link = `${moment().format()}_${this.props.foto.name}`;
           const uploadTask = storage
             .ref("keluhan")
             .child(link)
-            .put(this.state.foto);
+            .put(this.props.foto);
           uploadTask.on(
             "state_changed",
             () => console.log("..."),
@@ -91,7 +82,7 @@ class Keluhkan extends React.Component {
                 .child(link)
                 .getDownloadURL()
                 .then(url => {
-                  this.setState({ linkFoto: url });
+                  store.setState({ linkFoto: url });
                   const request = {
                     method: "post",
                     url: `${store.getState().urlBackend}/pengguna/keluhan`,
@@ -100,15 +91,16 @@ class Keluhkan extends React.Component {
                       "Content-Type": "application/json"
                     },
                     data: {
-                      foto_sebelum: this.state.linkFoto,
+                      foto_sebelum: this.props.linkFoto,
                       longitude: store.getState().lng,
                       latitude: store.getState().lat,
-                      isi: this.state.isi,
-                      anonim: this.state.anonim
+                      isi: this.props.isiKeluhan,
+                      anonim: this.props.anonim
                     }
                   };
                   axios(request)
                     .then(response => {
+                      store.setState({ isiKeluhan: "", anonim: false });
                       this.props.history.push(`/keluhan/${response.data.id}`);
                     })
                     .catch(() => {
@@ -137,15 +129,23 @@ class Keluhkan extends React.Component {
             "Content-Type": "application/json"
           },
           data: {
-            foto_sebelum: this.state.linkFoto,
+            foto_sebelum: this.props.linkFoto,
             longitude: store.getState().lng,
             latitude: store.getState().lat,
-            isi: this.state.isi,
-            anonim: this.state.anonim
+            isi: this.props.isiKeluhan,
+            anonim: this.props.anonim
           }
         };
         axios(request)
           .then(response => {
+            store.setState({
+              isiKeluhan: "",
+              anonim: false,
+              foto: null,
+              uriFoto: "",
+              linkFoto: "",
+              namaFoto: ""
+            });
             this.props.history.push(`/keluhan/${response.data.id}`);
           })
           .catch(() => {
@@ -156,10 +156,10 @@ class Keluhkan extends React.Component {
   };
 
   cekAnonim = () => {
-    if (this.state.anonim === true) {
-      this.setState({ anonim: false });
+    if (this.props.anonim === true) {
+      store.setState({ anonim: false });
     } else {
-      this.setState({ anonim: true });
+      store.setState({ anonim: true });
     }
   };
 
@@ -190,12 +190,12 @@ class Keluhkan extends React.Component {
         <Container fluid className="keluhkan-foto">
           <Row>
             <Col>
-              {this.state.uriFoto === "" ? (
+              {this.props.uriFoto === "" ? (
                 <div className="keluhkan-foto-kosong">
                   <FaImage />
                 </div>
               ) : (
-                <img alt="foto" src={this.state.uriFoto} />
+                <img alt="foto" src={this.props.uriFoto} />
               )}
             </Col>
           </Row>
@@ -211,9 +211,9 @@ class Keluhkan extends React.Component {
                       onChange={this.ubahFoto}
                     />
                     <label className="custom-file-label" htmlFor="customFile">
-                      {this.state.namaFoto === ""
+                      {this.props.namaFoto === ""
                         ? "Unggah foto"
-                        : this.state.foto.name}
+                        : this.props.foto.name}
                     </label>
                   </Col>
                 </Row>
@@ -224,7 +224,7 @@ class Keluhkan extends React.Component {
                 variant="danger"
                 onClick={() => {
                   document.querySelector("#customFile").value = "";
-                  this.setState({ foto: null, uriFoto: "", namaFoto: "" });
+                  store.setState({ foto: null, uriFoto: "", namaFoto: "" });
                 }}
               >
                 Hapus
@@ -254,16 +254,18 @@ class Keluhkan extends React.Component {
                   <Form.Control
                     as="textarea"
                     rows="3"
-                    onChange={event =>
-                      this.setState({ isi: event.target.value })
-                    }
+                    value={this.props.isiKeluhan}
+                    onChange={event => {
+                      store.setState({ isiKeluhan: event.target.value });
+                    }}
                   />
                 </Form.Group>
                 <Form.Group>
                   <Form.Check
                     type="checkbox"
                     label="Keluhkan sebagai anonim"
-                    onClick={() => this.cekAnonim()}
+                    checked={this.props.anonim}
+                    onChange={() => this.cekAnonim()}
                   />
                 </Form.Group>
                 <Button
@@ -283,6 +285,6 @@ class Keluhkan extends React.Component {
 }
 
 export default connect(
-  "lokasiUser, loadingLokasiUser",
+  "lokasiUser, loadingLokasiUser, isiKeluhan, anonim, foto, uriFoto, linkFoto, namaFoto",
   actions
 )(withRouter(Keluhkan));
