@@ -209,26 +209,23 @@ class Keluhkan extends React.Component {
             </Col>
           </Row>
           <Row className="keluhkan-foto-row">
-            <Col className="keluhkan-unggah">
-              <Container>
-                <Row>
-                  <Col className="custom-file">
-                    <input
-                      type="file"
-                      className="custom-file-input"
-                      id="customFile"
-                      onChange={this.ubahFoto}
-                    />
-                    <label className="custom-file-label" htmlFor="customFile">
-                      {this.props.namaFoto === ""
-                        ? "Unggah foto"
-                        : this.props.foto.name}
-                    </label>
-                  </Col>
-                </Row>
-              </Container>
-            </Col>
-            <Col xs="auto">
+            <Col></Col>
+            <Col className="keluhkan-unggah" xs="auto">
+              <input
+                type="file"
+                id="keluhkan-unggah-foto"
+                className="keluhkan-unggah-foto"
+                onChange={this.ubahFoto}
+              />
+              <Button
+                variant="secondary"
+                className="keluhkan-unggah-foto-button"
+                onClick={() =>
+                  document.getElementById("keluhkan-unggah-foto").click()
+                }
+              >
+                Unggah Foto
+              </Button>
               <Button
                 variant="danger"
                 onClick={() => {
@@ -239,6 +236,7 @@ class Keluhkan extends React.Component {
                 Hapus
               </Button>
             </Col>
+            <Col></Col>
           </Row>
         </Container>
         {this.props.loadingLokasiUser ? (
