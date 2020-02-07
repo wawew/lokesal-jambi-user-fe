@@ -27,7 +27,7 @@ class Laporan extends React.Component {
       method: "get",
       url: `${store.getState().urlBackend}/keluhan?kota=${
         store.getState().namaKota
-      }&halaman=${this.state.halaman + 1}&per_halaman=5`,
+      }&halaman=${this.state.halaman + 1}&per_halaman=2`,
       headers: { "Content-Type": "application/json" }
     };
     axios(requestLaporan)
@@ -74,7 +74,7 @@ class Laporan extends React.Component {
       method: "get",
       url: `${store.getState().urlBackend}/keluhan?kota=${
         store.getState().namaKota
-      }&halaman=1&per_halaman=5`,
+      }&halaman=1&per_halaman=2`,
       headers: { "Content-Type": "application/json" }
     };
     axios(requestLaporan)

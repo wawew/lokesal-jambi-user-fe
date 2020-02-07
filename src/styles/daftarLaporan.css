@@ -1,11 +1,11 @@
 .daftarlaporan {
   background-color: white;
   border-top: solid 1px rgb(220, 220, 220);
-  padding: 15px 0;
+  padding: 15px 0 !important;
 }
 
 .daftarlaporan-col {
-  padding: 0 !important;
+  padding-right: 0 !important;
 }
 
 .daftarlaporan img {
