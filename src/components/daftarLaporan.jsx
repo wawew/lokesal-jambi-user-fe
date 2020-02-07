@@ -11,7 +11,8 @@ import {
   FaUser,
   FaMapMarkerAlt,
   FaRegCalendarAlt,
-  FaCircle
+  FaCircle,
+  FaImage
 } from "react-icons/fa";
 
 class DaftarLaporan extends React.Component {
@@ -46,7 +47,13 @@ class DaftarLaporan extends React.Component {
       >
         <Row>
           <Col xs="auto" className="daftarlaporan-col">
-            <img alt="foto" src={this.props.foto_sebelum} />
+            {this.props.foto_sebelum === "" ? (
+              <div className="daftarlaporan-gambarkosong">
+                <FaImage />
+              </div>
+            ) : (
+              <img alt="foto" src={this.props.foto_sebelum} />
+            )}
           </Col>
           <Col className="daftarlaporan-data">
             <h1>
@@ -70,7 +77,7 @@ class DaftarLaporan extends React.Component {
               {moment(`${this.props.dibuat}Z`)
                 .tz("Asia/Jakarta")
                 .format("LL")}{" "}
-              {moment(`${this.props.dibuat}Z`).format("hh:mm")} WIB
+              {moment(`${this.props.dibuat}Z`).format("HH:mm")} WIB
             </h3>
             <h2>
               <div

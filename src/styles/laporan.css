@@ -61,3 +61,23 @@
   margin-top: 2px;
   margin-bottom: 0;
 }
+
+.laporan-lihat {
+  color: rgb(80, 120, 80);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.laporan-lihat .container {
+  border-top: solid 1px rgb(220, 220, 220);
+  margin-bottom: 10px;
+}
+
+.laporan-daftar-spinner {
+  text-align: center;
+  padding-top: 70px;
+}
+
+.laporan-lihat-spinner {
+  margin-top: 10px;
+}

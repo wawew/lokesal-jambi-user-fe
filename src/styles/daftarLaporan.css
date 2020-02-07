@@ -72,3 +72,13 @@
   display: inline-block;
   transform: translateY(-2px);
 }
+
+.daftarlaporan-gambarkosong {
+  background-color: rgb(220, 220, 220);
+  border-radius: 10px;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  font-size: 30px;
+  padding-top: 25px;
+}
