@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import swal from "sweetalert";
 import { store, actions } from "../store/store";
 import moment from "moment";
 import "moment-timezone";
@@ -13,7 +14,7 @@ import {
   FaRegCalendarAlt,
   FaHeadset,
   FaImage,
-  FaHandsHelping,
+  FaHandHoldingHeart,
   FaComments
 } from "react-icons/fa";
 import "../styles/kembali.css";
@@ -35,7 +36,35 @@ class DetailLaporan extends React.Component {
     tanggapanAdmin: [],
     dibuat: "",
     diperbarui: "",
-    loading: false
+    loading: false,
+    didukung: false
+  };
+
+  tambahDukungan = () => {
+    if (localStorage.getItem("token") !== null) {
+      const request = {
+        method: "put",
+        url: `${store.getState().urlBackend}/pengguna/keluhan/${
+          this.props.match.params.id
+        }/dukungan`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        }
+      };
+      axios(request).then(response => {
+        this.setState({
+          didukung: response.data.dukung,
+          totalDukungan: response.data.total_dukungan
+        });
+      });
+    } else {
+      swal(
+        "Gagal Dukung!",
+        "Anda harus masuk supaya bisa mendukung laporan ini",
+        "error"
+      );
+    }
   };
 
   componentDidMount = () => {
@@ -50,7 +79,6 @@ class DetailLaporan extends React.Component {
     };
     axios(request)
       .then(response => {
-        console.log(response.data);
         this.setState({
           fotoSebelum: response.data.foto_sebelum,
           fotoSesudah: response.data.foto_sesudah,
@@ -69,6 +97,24 @@ class DetailLaporan extends React.Component {
         this.props.getLokasi([response.data.longitude, response.data.latitude]);
       })
       .catch(() => this.setState({ loading: false }));
+    // Get data user mendukung atau tidak
+    if (localStorage.getItem("token") !== null) {
+      const requestDukung = {
+        method: "get",
+        url: `${store.getState().urlBackend}/pengguna/keluhan/${
+          this.props.match.params.id
+        }/dukungan`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        }
+      };
+      axios(requestDukung).then(response => {
+        this.setState({
+          didukung: response.data.dukung
+        });
+      });
+    }
   };
 
   render() {
@@ -218,9 +264,21 @@ class DetailLaporan extends React.Component {
         <Container fluid className="detaillaporan-dukungan">
           <Row>
             <Col>
-              <div className="detaillaporan-dukungan-icon">
-                <FaHandsHelping />
-              </div>{" "}
+              {this.state.didukung ? (
+                <div
+                  className="detaillaporan-keluhan-icon"
+                  onClick={() => this.tambahDukungan()}
+                >
+                  <FaHandHoldingHeart />
+                </div>
+              ) : (
+                <div
+                  className="detaillaporan-dukungan-icon"
+                  onClick={() => this.tambahDukungan()}
+                >
+                  <FaHandHoldingHeart />
+                </div>
+              )}
               {this.state.totalDukungan} dukungan
             </Col>
             <Col xs="auto">
