@@ -1,3 +1,8 @@
+.detaillaporan {
+  margin-top: 60px;
+  margin-bottom: 47px;
+}
+
 .detaillaporan-loading {
   background-color: white;
   margin-top: 10px;
@@ -80,4 +85,43 @@
   display: inline-block;
   margin-right: 5px;
   transform: translateY(-1px);
+}
+
+.detaillaporan-tambahkomentar {
+  position: fixed;
+  bottom: 0;
+  max-width: 500px;
+  background-color: white;
+}
+
+.detaillaporan-tambahkomentar .col {
+  padding: 0 !important;
+}
+
+.detaillaporan-tambahkomentar .col-auto {
+  padding: 0 !important;
+}
+
+.detaillaporan-tambahkomentar input {
+  border-radius: 0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
+.detaillaporan-tambahkomentar input:focus {
+  border-top: solid 1px #ced4da;
+  outline: 0 !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+}
+
+.detaillaporan-tambahkomentar button:focus {
+  outline: 0 !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+}
+
+.detaillaporan-tambahkomentar button {
+  border-radius: 0;
 }

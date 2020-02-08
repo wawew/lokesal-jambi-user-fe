@@ -6,7 +6,15 @@ import moment from "moment";
 import "moment-timezone";
 import "moment/locale/id";
 import { withRouter } from "react-router-dom";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Spinner,
+  Form,
+  Button,
+  InputGroup
+} from "react-bootstrap";
 import {
   FaChevronLeft,
   FaCircle,
@@ -15,8 +23,10 @@ import {
   FaHeadset,
   FaImage,
   FaHandHoldingHeart,
-  FaComments
+  FaComments,
+  FaEllipsisH
 } from "react-icons/fa";
+import { IoMdSend } from "react-icons/io";
 import "../styles/kembali.css";
 import "../styles/detailLaporan.css";
 import NamaLokasi from "../components/namaLokasi";
@@ -37,7 +47,9 @@ class DetailLaporan extends React.Component {
     dibuat: "",
     diperbarui: "",
     loading: false,
-    didukung: false
+    didukung: false,
+    komentar: "",
+    loadingKirimKomentar: false
   };
 
   tambahDukungan = () => {
@@ -62,6 +74,41 @@ class DetailLaporan extends React.Component {
       swal(
         "Gagal Dukung!",
         "Anda harus masuk supaya bisa mendukung laporan ini",
+        "error"
+      );
+    }
+  };
+
+  kirimKomentar = () => {
+    if (localStorage.getItem("token") !== null) {
+      this.setState({
+        loadingKirimKomentar: true
+      });
+      const request = {
+        method: "post",
+        url: `${store.getState().urlBackend}/pengguna/keluhan/${
+          this.props.match.params.id
+        }/komentar`,
+        data: { isi: this.state.komentar },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        }
+      };
+      axios(request)
+        .then(response => {
+          this.setState({
+            loadingKirimKomentar: false
+          });
+        })
+        .catch(() => this.setState({ loadingKirimKomentar: false }));
+    } else {
+      this.setState({
+        loadingKirimKomentar: false
+      });
+      swal(
+        "Gagal Kirim Komentar!",
+        "Anda harus masuk supaya bisa memberikan komentar anda",
         "error"
       );
     }
@@ -144,7 +191,7 @@ class DetailLaporan extends React.Component {
             </Row>
           </Container>
         ) : (
-          <React.Fragment>
+          <div className="detaillaporan">
             <Container fluid className="detaillaporan-fotosebelum">
               <Row>
                 <Col>
@@ -259,36 +306,72 @@ class DetailLaporan extends React.Component {
             ) : (
               <div></div>
             )}
-          </React.Fragment>
+            <Container fluid className="detaillaporan-dukungan">
+              <Row>
+                <Col>
+                  {this.state.didukung ? (
+                    <div
+                      className="detaillaporan-keluhan-icon"
+                      onClick={() => this.tambahDukungan()}
+                    >
+                      <FaHandHoldingHeart />
+                    </div>
+                  ) : (
+                    <div
+                      className="detaillaporan-dukungan-icon"
+                      onClick={() => this.tambahDukungan()}
+                    >
+                      <FaHandHoldingHeart />
+                    </div>
+                  )}
+                  {this.state.totalDukungan} dukungan
+                </Col>
+                <Col xs="auto">
+                  <div className="detaillaporan-keluhan-icon">
+                    <FaComments />
+                  </div>{" "}
+                  {this.state.totalKomentar} komentar
+                </Col>
+              </Row>
+            </Container>
+          </div>
         )}
-        <Container fluid className="detaillaporan-dukungan">
-          <Row>
-            <Col>
-              {this.state.didukung ? (
-                <div
-                  className="detaillaporan-keluhan-icon"
-                  onClick={() => this.tambahDukungan()}
-                >
-                  <FaHandHoldingHeart />
-                </div>
-              ) : (
-                <div
-                  className="detaillaporan-dukungan-icon"
-                  onClick={() => this.tambahDukungan()}
-                >
-                  <FaHandHoldingHeart />
-                </div>
-              )}
-              {this.state.totalDukungan} dukungan
-            </Col>
-            <Col xs="auto">
-              <div className="detaillaporan-keluhan-icon">
-                <FaComments />
-              </div>{" "}
-              {this.state.totalKomentar} komentar
-            </Col>
-          </Row>
-        </Container>
+        {localStorage.getItem("token") === null ? (
+          <div></div>
+        ) : (
+          <Container fluid className="detaillaporan-tambahkomentar">
+            <Row>
+              <Col>
+                <Form onSubmit={event => event.preventDefault()}>
+                  <InputGroup>
+                    <Form.Control
+                      type="text"
+                      placeholder="Kirim komentar anda"
+                      onChange={event =>
+                        this.setState({ komentar: event.target.value })
+                      }
+                    />
+                    <InputGroup.Append>
+                      {this.state.loadingKirimKomentar ? (
+                        <Button variant="success" disabled>
+                          <FaEllipsisH />
+                        </Button>
+                      ) : (
+                        <Button
+                          type="submit"
+                          variant="success"
+                          onClick={() => this.kirimKomentar()}
+                        >
+                          <IoMdSend />
+                        </Button>
+                      )}
+                    </InputGroup.Append>
+                  </InputGroup>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
+        )}
       </React.Fragment>
     );
   }
