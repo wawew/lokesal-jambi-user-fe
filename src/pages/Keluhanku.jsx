@@ -6,6 +6,7 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import Kembali from "../components/kembali";
 import DaftarLaporan from "../components/daftarLaporan";
 import "../styles/laporan.css";
+import { FaCommentSlash } from "react-icons/fa";
 
 class Keluhanku extends React.Component {
   state = {
@@ -42,29 +43,33 @@ class Keluhanku extends React.Component {
   };
 
   componentDidMount = () => {
-    this.setState({
-      loadingLaporan: true
-    });
-    const request = {
-      method: "get",
-      url: `${
-        store.getState().urlBackend
-      }/pengguna/keluhan?halaman=1&per_halaman=5`,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json"
-      }
-    };
-    axios(request)
-      .then(response => {
-        this.setState({
-          halaman: response.data.halaman,
-          totalHalaman: response.data.total_halaman,
-          daftarLaporan: response.data.daftar_keluhan,
-          loadingLaporan: false
-        });
-      })
-      .catch(() => this.setState({ loadingLaporan: false }));
+    if (localStorage.getItem("token") === null) {
+      this.props.history.push("/masuk");
+    } else {
+      this.setState({
+        loadingLaporan: true
+      });
+      const request = {
+        method: "get",
+        url: `${
+          store.getState().urlBackend
+        }/pengguna/keluhan?halaman=1&per_halaman=5`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        }
+      };
+      axios(request)
+        .then(response => {
+          this.setState({
+            halaman: response.data.halaman,
+            totalHalaman: response.data.total_halaman,
+            daftarLaporan: response.data.daftar_keluhan,
+            loadingLaporan: false
+          });
+        })
+        .catch(() => this.setState({ loadingLaporan: false }));
+    }
   };
 
   render() {
@@ -74,10 +79,22 @@ class Keluhanku extends React.Component {
         <Container fluid className="keluhanku">
           <h1>RIWAYAT KELUHANKU</h1>
           {this.state.loadingLaporan ? (
-            <Container className="laporan-daftar-spinner keluhanku-spinner">
+            <Container
+              fluid
+              className="laporan-daftar-spinner keluhanku-spinner"
+            >
               <Row>
                 <Col>
                   <Spinner animation="grow" variant="success" />
+                </Col>
+              </Row>
+            </Container>
+          ) : this.state.daftarLaporan.length === 0 ? (
+            <Container fluid>
+              <Row>
+                <Col className="keluhanku-kosong">
+                  <FaCommentSlash />
+                  <h2>Riwayat keluhan anda kosong</h2>
                 </Col>
               </Row>
             </Container>

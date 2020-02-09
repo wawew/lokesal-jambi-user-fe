@@ -145,11 +145,15 @@ class Laporan extends React.Component {
             <Col>
               <h2>LAPORAN TERKINI</h2>
             </Col>
-            <Col xs="auto">
-              <h6 onClick={() => this.props.history.push("/keluhanku")}>
-                Keluhanku
-              </h6>
-            </Col>
+            {localStorage.getItem("token") === null ? (
+              <div></div>
+            ) : (
+              <Col xs="auto">
+                <h6 onClick={() => this.props.history.push("/keluhanku")}>
+                  Keluhanku
+                </h6>
+              </Col>
+            )}
           </Row>
           {this.state.loadingLaporan ? (
             <Container className="laporan-daftar-spinner">

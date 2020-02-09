@@ -51,7 +51,10 @@ class DetailLaporan extends React.Component {
     didukung: false,
     komentar: "",
     loadingKirimKomentar: false,
-    daftarKomentar: []
+    daftarKomentar: [],
+    halaman: 1,
+    totalHalaman: 1,
+    loadingLihatKomentar: false
   };
 
   tambahDukungan = () => {
@@ -100,9 +103,11 @@ class DetailLaporan extends React.Component {
       axios(request)
         .then(response => {
           this.setState({
+            daftarKomentar: this.state.daftarKomentar.concat([response.data]),
             komentar: "",
             loadingKirimKomentar: false
           });
+          window.scrollTo(0, document.body.scrollHeight);
         })
         .catch(() => this.setState({ loadingKirimKomentar: false }));
     } else {
@@ -115,6 +120,31 @@ class DetailLaporan extends React.Component {
         "error"
       );
     }
+  };
+
+  lihatKomentar = () => {
+    this.setState({ loadingLihatKomentar: true });
+    const requestKomentar = {
+      method: "get",
+      url: `${store.getState().urlBackend}/keluhan/${
+        this.props.match.params.id
+      }/komentar?halaman=${this.state.halaman + 1}&per_halaman=5`,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    axios(requestKomentar)
+      .then(response => {
+        this.setState({
+          daftarKomentar: response.data.daftar_komentar.concat(
+            this.state.daftarKomentar
+          ),
+          halaman: response.data.halaman,
+          totalHalaman: response.data.total_halaman,
+          loadingLihatKomentar: false
+        });
+      })
+      .catch(() => this.setState({ loadingLihatKomentar: false }));
   };
 
   componentDidMount = () => {
@@ -170,14 +200,16 @@ class DetailLaporan extends React.Component {
       method: "get",
       url: `${store.getState().urlBackend}/keluhan/${
         this.props.match.params.id
-      }/komentar`,
+      }/komentar?halaman=1&per_halaman=5`,
       headers: {
         "Content-Type": "application/json"
       }
     };
     axios(requestKomentar).then(response => {
       this.setState({
-        daftarKomentar: response.data.daftar_komentar
+        daftarKomentar: response.data.daftar_komentar,
+        halaman: response.data.halaman,
+        totalHalaman: response.data.total_halaman
       });
     });
   };
@@ -364,6 +396,27 @@ class DetailLaporan extends React.Component {
                 </Col>
               </Row>
             </Container>
+            {this.state.loadingLihatKomentar ? (
+              <Container fluid className="detaillaporan-loadingkomentar">
+                <Row>
+                  <Col>
+                    <Spinner variant="success" animation="grow" />
+                  </Col>
+                </Row>
+              </Container>
+            ) : this.state.halaman === this.state.totalHalaman ? (
+              <div></div>
+            ) : (
+              <Container fluid className="detaillaporan-lihatkomentar">
+                <Row>
+                  <Col>
+                    <h6 onClick={() => this.lihatKomentar()}>
+                      Lihat komentar sebelumnya
+                    </h6>
+                  </Col>
+                </Row>
+              </Container>
+            )}
             {this.state.daftarKomentar.map(item => {
               return (
                 <Komentar
@@ -391,6 +444,9 @@ class DetailLaporan extends React.Component {
                       value={this.state.komentar}
                       onChange={event =>
                         this.setState({ komentar: event.target.value })
+                      }
+                      onClick={() =>
+                        window.scrollTo(0, document.body.scrollHeight)
                       }
                     />
                     <InputGroup.Append>

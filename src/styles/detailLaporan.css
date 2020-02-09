@@ -129,3 +129,16 @@
 .detaillaporan-tambahkomentar button {
   border-radius: 0;
 }
+
+.detaillaporan-lihatkomentar {
+  background-color: white;
+  color: gray;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.detaillaporan-loadingkomentar {
+  background-color: white;
+  padding-top: 10px;
+  text-align: center;
+}
