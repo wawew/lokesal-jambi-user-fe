@@ -1,5 +1,6 @@
 import createStore from "unistore";
 import axios from "axios";
+import swal from "sweetalert";
 
 const initialState = {
   urlBackend: "https://api.lokesal.online",
@@ -37,10 +38,21 @@ export const actions = store => ({
       headers: { "Content-Type": "application/json" }
     };
     axios(request).then(response => {
-      store.setState({
-        lokasiUser: response.data.features[0].place_name,
-        loadingLokasiUser: false
-      });
+      if (response.data.features.length === 0) {
+        store.setState({
+          loadingLokasiUser: false
+        });
+        swal(
+          "Pilih Lokasi Gagal!",
+          "Lokasi yang anda cari tidak valid.",
+          "error"
+        );
+      } else {
+        store.setState({
+          lokasiUser: response.data.features[0].place_name,
+          loadingLokasiUser: false
+        });
+      }
     });
   }
 });

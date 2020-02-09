@@ -14,71 +14,42 @@ class Laporan extends React.Component {
     totalDiproses: 0,
     totalSelesai: 0,
     loadingTotal: false,
-    daftarLaporan: [
-      {
-        nama_depan: "Wildan",
-        nama_belakang: "Firdaussssssssssssssssssss",
-        detail_keluhan: {
-          id: 1,
-          dibuat: "2020-02-04T23:33:00",
-          diperbarui: "2020-02-04T23:33:00",
-          foto_sebelum:
-            "https://imgx.gridoto.com/crop/0x0:0x0/700x465/photo/gridoto/2017/10/06/1411809991.jpg",
-          longitude: "112",
-          latitude: "-7",
-          isi: "Keluhanku adalah itu pokoknya",
-          total_dukungan: 0,
-          total_komentar: 0,
-          status: "diterima",
-          anonim: false
-        }
-      },
-      {
-        nama_depan: "Wildan",
-        nama_belakang: "Firdaus",
-        detail_keluhan: {
-          id: 2,
-          dibuat: "2020-02-04T23:33:00",
-          diperbarui: "2020-02-04T23:33:00",
-          foto_sebelum:
-            "https://imgx.gridoto.com/crop/0x0:0x0/700x465/photo/gridoto/2017/10/06/1411809991.jpg",
-          longitude: "0",
-          latitude: "0",
-          isi: "Keluhanku adalah itu pokoknya",
-          total_dukungan: 0,
-          total_komentar: 0,
-          status: "diproses",
-          anonim: true
-        }
-      },
-      {
-        nama_depan: "Wildan",
-        nama_belakang: "Firdaus",
-        detail_keluhan: {
-          id: 3,
-          dibuat: "2020-02-04T23:33:00",
-          diperbarui: "2020-02-04T23:33:00",
-          foto_sebelum:
-            "https://imgx.gridoto.com/crop/0x0:0x0/700x465/photo/gridoto/2017/10/06/1411809991.jpg",
-          longitude: "0",
-          latitude: "0",
-          isi: "Keluhanku adalah itu pokoknya",
-          total_dukungan: 0,
-          total_komentar: 0,
-          status: "selesai",
-          anonim: false
-        }
-      }
-    ],
-    loadingDaftarLaporan: false
+    daftarLaporan: [],
+    halaman: 1,
+    totalHalaman: 1,
+    loadingLaporan: false,
+    loadingSelanjutnya: false
+  };
+
+  lihatLaporanSebelumnya = () => {
+    this.setState({ loadingSelanjutnya: true });
+    const requestLaporan = {
+      method: "get",
+      url: `${store.getState().urlBackend}/keluhan?kota=${
+        store.getState().namaKota
+      }&halaman=${this.state.halaman + 1}&per_halaman=5`,
+      headers: { "Content-Type": "application/json" }
+    };
+    axios(requestLaporan)
+      .then(response => {
+        this.setState({
+          halaman: response.data.halaman,
+          totalHalaman: response.data.total_halaman,
+          daftarLaporan: this.state.daftarLaporan.concat(
+            response.data.daftar_keluhan
+          ),
+          loadingSelanjutnya: false
+        });
+      })
+      .catch(() => this.setState({ loadingSelanjutnya: false }));
   };
 
   componentDidMount = () => {
     this.setState({
       loadingTotal: true,
-      loadingDaftarLaporan: true,
-      loadingDaftarLokasi: true
+      loadingLaporan: true
     });
+    // Get total laporan diterima, diproses, dan selesai
     const request = {
       method: "get",
       url: `${store.getState().urlBackend}/total_keluhan?kota=${
@@ -98,6 +69,24 @@ class Laporan extends React.Component {
       .catch(() => {
         this.setState({ loadingTotal: false });
       });
+    // Get daftar laporan
+    const requestLaporan = {
+      method: "get",
+      url: `${store.getState().urlBackend}/keluhan?kota=${
+        store.getState().namaKota
+      }&halaman=1&per_halaman=5`,
+      headers: { "Content-Type": "application/json" }
+    };
+    axios(requestLaporan)
+      .then(response => {
+        this.setState({
+          halaman: response.data.halaman,
+          totalHalaman: response.data.total_halaman,
+          daftarLaporan: response.data.daftar_keluhan,
+          loadingLaporan: false
+        });
+      })
+      .catch(() => this.setState({ loadingLaporan: false }));
   };
 
   render() {
@@ -156,27 +145,66 @@ class Laporan extends React.Component {
             <Col>
               <h2>LAPORAN TERKINI</h2>
             </Col>
-            <Col xs="auto">
-              <h6 onClick={() => this.props.history.push("/keluhanku")}>
-                Keluhanku
-              </h6>
-            </Col>
+            {localStorage.getItem("token") === null ? (
+              <div></div>
+            ) : (
+              <Col xs="auto">
+                <h6 onClick={() => this.props.history.push("/keluhanku")}>
+                  Keluhanku
+                </h6>
+              </Col>
+            )}
           </Row>
-          {this.state.daftarLaporan.map(item => {
-            return (
-              <DaftarLaporan
-                id={item.detail_keluhan.id}
-                foto_sebelum={item.detail_keluhan.foto_sebelum}
-                nama_depan={item.nama_depan}
-                nama_belakang={item.nama_belakang}
-                longitude={item.detail_keluhan.longitude}
-                latitude={item.detail_keluhan.latitude}
-                dibuat={item.detail_keluhan.dibuat}
-                status={item.detail_keluhan.status}
-                anonim={item.detail_keluhan.anonim}
-              />
-            );
-          })}
+          {this.state.loadingLaporan ? (
+            <Container className="laporan-daftar-spinner">
+              <Row>
+                <Col>
+                  <Spinner animation="grow" variant="success" />
+                </Col>
+              </Row>
+            </Container>
+          ) : (
+            this.state.daftarLaporan.map(item => {
+              return (
+                <DaftarLaporan
+                  id={item.detail_keluhan.id}
+                  foto_sebelum={item.detail_keluhan.foto_sebelum}
+                  nama_depan={item.nama_depan}
+                  nama_belakang={item.nama_belakang}
+                  longitude={item.detail_keluhan.longitude}
+                  latitude={item.detail_keluhan.latitude}
+                  dibuat={item.detail_keluhan.dibuat}
+                  status={item.detail_keluhan.status}
+                  anonim={item.detail_keluhan.anonim}
+                />
+              );
+            })
+          )}
+          {this.state.halaman === this.state.totalHalaman ||
+          this.state.loadingLaporan ? (
+            <div></div>
+          ) : this.state.loadingSelanjutnya ? (
+            <Row className="laporan-lihat">
+              <Col>
+                <Container>
+                  <Spinner
+                    className="laporan-lihat-spinner"
+                    animation="grow"
+                    variant="success"
+                  />
+                </Container>
+              </Col>
+            </Row>
+          ) : (
+            <Row className="laporan-lihat">
+              <Col>
+                <Container></Container>
+                <span onClick={() => this.lihatLaporanSebelumnya()}>
+                  Lihat laporan sebelumnya
+                </span>
+              </Col>
+            </Row>
+          )}
         </Container>
       </React.Fragment>
     );

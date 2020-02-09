@@ -11,17 +11,16 @@ import {
   FaUser,
   FaMapMarkerAlt,
   FaRegCalendarAlt,
-  FaCircle
+  FaCircle,
+  FaImage
 } from "react-icons/fa";
 
 class DaftarLaporan extends React.Component {
   state = {
-    lokasi: "",
-    loading: false
+    lokasi: ""
   };
 
   componentDidMount = () => {
-    this.setState({ loading: true });
     const request = {
       method: "get",
       url: `${store.getState().mapboxUrl}${this.props.longitude},${
@@ -31,8 +30,7 @@ class DaftarLaporan extends React.Component {
     };
     axios(request).then(response => {
       this.setState({
-        lokasi: response.data.features[0].place_name,
-        loading: false
+        lokasi: response.data.features[0].place_name
       });
     });
   };
@@ -46,17 +44,28 @@ class DaftarLaporan extends React.Component {
       >
         <Row>
           <Col xs="auto" className="daftarlaporan-col">
-            <img alt="foto" src={this.props.foto_sebelum} />
+            {this.props.foto_sebelum === "" ? (
+              <div className="daftarlaporan-gambarkosong">
+                <FaImage />
+              </div>
+            ) : (
+              <img alt="foto" src={this.props.foto_sebelum} />
+            )}
           </Col>
           <Col className="daftarlaporan-data">
-            <h1>
-              <div className="daftarlaporan-icon">
-                <FaUser />
-              </div>{" "}
-              {this.props.anonim
-                ? "Anonim"
-                : `${this.props.nama_depan} ${this.props.nama_belakang}`}
-            </h1>
+            {this.props.nama_depan === undefined &&
+            this.props.nama_belakang === undefined ? (
+              <div className="daftarlaporan-riwayat"></div>
+            ) : (
+              <h1>
+                <div className="daftarlaporan-icon">
+                  <FaUser />
+                </div>{" "}
+                {this.props.anonim
+                  ? "Anonim"
+                  : `${this.props.nama_depan} ${this.props.nama_belakang}`}
+              </h1>
+            )}
             <h4>
               <div className="daftarlaporan-icon">
                 <FaMapMarkerAlt />
@@ -70,7 +79,7 @@ class DaftarLaporan extends React.Component {
               {moment(`${this.props.dibuat}Z`)
                 .tz("Asia/Jakarta")
                 .format("LL")}{" "}
-              {moment(`${this.props.dibuat}Z`).format("hh:mm")} WIB
+              {moment(`${this.props.dibuat}Z`).format("HH:mm")} WIB
             </h3>
             <h2>
               <div

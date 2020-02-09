@@ -6,21 +6,23 @@ import "../styles/kembali.css";
 
 const Kembali = props => {
   return (
-    <Container fluid className="kembali">
-      <Row>
-        <Col className="kembali-col">
-          <div
-            className="kembali-div"
-            onClick={() => props.history.push(props.path)}
-          >
-            <span className="kembali-icon">
-              <FaChevronLeft />
-            </span>
-            <span className="kembali-nama"> Kembali</span>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+    <React.Fragment>
+      <Container fluid className="kembali">
+        <Row>
+          <Col className="kembali-col">
+            <div
+              className="kembali-div"
+              onClick={() => props.history.push(props.path)}
+            >
+              <span className="kembali-icon">
+                <FaChevronLeft />
+              </span>
+              <span className="kembali-nama"> Kembali</span>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </React.Fragment>
   );
 };
 

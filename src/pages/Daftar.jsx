@@ -47,13 +47,12 @@ class Daftar extends React.Component {
     axios(request)
       .then(response => {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("id", response.data.id);
         localStorage.setItem("terverifikasi", response.data.terverifikasi);
         this.setState({ loading: false });
         swal({
           title: "Berhasil Daftar!",
           text:
-            "Silahkan lakukan verifikasi akun anda dengan mengunggah foto KTP di halaman profil",
+            "Silahkan lakukan verifikasi akun anda dengan mengunggah foto KTP di halaman profil.",
           icon: "success"
         }).then(() => this.props.history.push("/"));
       })
@@ -62,13 +61,13 @@ class Daftar extends React.Component {
         if (error.response.data.pesan === "Email sudah terdaftar.") {
           swal({
             title: "Gagal Daftar!",
-            text: "Email anda sudah terdaftar",
+            text: "Email anda sudah terdaftar.",
             icon: "error"
           });
         } else if (error.response.data.pesan === "Telepon sudah terdaftar.") {
           swal({
             title: "Gagal Daftar!",
-            text: "Nomor telepon anda sudah terdaftar",
+            text: "Nomor telepon anda sudah terdaftar.",
             icon: "error"
           });
         }

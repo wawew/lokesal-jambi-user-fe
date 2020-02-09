@@ -18,7 +18,7 @@
 
 .keluhkan-foto {
   background-color: white;
-  margin-top: 10px;
+  margin-top: 60px;
   padding-top: 15px;
   padding-bottom: 15px;
 }
@@ -49,19 +49,14 @@
   font-size: 50px;
 }
 
-.custom-file-input:lang(en) ~ .custom-file-label::after {
-  content: "Cari" !important;
-}
-
-.custom-file-label {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.keluhkan-unggah {
-  padding-right: 0 !important;
-}
-
 .keluhkan-foto-row {
   margin-top: 15px;
+}
+
+.keluhkan-unggah-foto {
+  display: none;
+}
+
+.keluhkan-unggah-foto-button {
+  margin-right: 10px;
 }

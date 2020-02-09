@@ -22,7 +22,6 @@ class Profil extends React.Component {
     }).then(willDelete => {
       if (willDelete) {
         localStorage.removeItem("token");
-        localStorage.removeItem("id");
         localStorage.removeItem("terverifikasi");
         this.props.history.push("/masuk");
       }
@@ -32,7 +31,7 @@ class Profil extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Container fluid className="kembali">
+        <Container fluid className="kembali profil-kembali">
           <Row>
             <Col className="kembali-col">
               <div

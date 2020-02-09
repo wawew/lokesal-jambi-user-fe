@@ -1,6 +1,8 @@
 .kembali {
   background-color: white;
   height: 50px;
+  position: fixed;
+  z-index: 10;
 }
 
 .kembali-div {
@@ -20,6 +22,10 @@
 .kembali-nama {
   font-size: 15px;
   font-weight: bold;
+}
+
+.profil-kembali {
+  max-width: 500px;
 }
 
 .profil-keluar {

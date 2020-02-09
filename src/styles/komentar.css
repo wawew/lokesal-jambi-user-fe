@@ -1,0 +1,43 @@
+.komentar {
+  background-color: white;
+}
+
+.komentar-border {
+  border-top: solid 1px rgb(220, 220, 220);
+  padding-top: 17px;
+}
+
+.komentar-avatar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.komentar-avatar img {
+  border-radius: 50px;
+  object-fit: cover;
+  height: 50px;
+  width: 50px;
+}
+
+.komentar-avatarkosong {
+  color: rgb(220, 220, 220);
+  font-size: 50px;
+  transform: translateY(-17px);
+}
+
+.komentar-isi {
+  padding-right: 0 !important;
+}
+
+.komentar-isi h3 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.komentar-kata {
+  margin-bottom: 8px;
+}
+
+.komentar-waktu {
+  color: gray;
+}
