@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { store } from "../store/store";
@@ -15,41 +16,63 @@ import swal from "sweetalert";
 
 const Navbar = props => {
   const buttonKeluhkan = () => {
-    store.setState({
-      lng: 0,
-      lat: 0,
-      isiKeluhan: "",
-      anonim: false,
-      foto: null,
-      uriFoto: "",
-      linkFoto: "",
-      namaFoto: ""
-    });
-    props.history.push("/keluhkan");
+    if (localStorage.getItem("token") === null) {
+      swal({
+        title: "Anda belum masuk!",
+        text:
+          "Untuk melaporkan keluhan, anda diharuskan masuk sebagai pengguna.",
+        icon: "error"
+      });
+    } else if (localStorage.getItem("terverifikasi") === "false") {
+      const request = {
+        method: "get",
+        url: `${store.getState().urlBackend}/pengguna/profil`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+        }
+      };
+      axios(request).then(response => {
+        if (response.data.terverifikasi === true) {
+          localStorage.setItem("terverifikasi", "true");
+          store.setState({
+            lng: 0,
+            lat: 0,
+            isiKeluhan: "",
+            anonim: false,
+            foto: null,
+            uriFoto: "",
+            linkFoto: "",
+            namaFoto: ""
+          });
+          props.history.push("/keluhkan");
+        } else {
+          swal({
+            title: "Anda belum terverifikasi!",
+            text:
+              "Silahkan mengunggah foto KTP anda untuk mengajukan verifikasi.",
+            icon: "error"
+          });
+        }
+      });
+    } else {
+      store.setState({
+        lng: 0,
+        lat: 0,
+        isiKeluhan: "",
+        anonim: false,
+        foto: null,
+        uriFoto: "",
+        linkFoto: "",
+        namaFoto: ""
+      });
+      props.history.push("/keluhkan");
+    }
   };
 
   return (
     <Container fluid className="navbar">
-      <button
-        className="navbar-button"
-        onClick={() => {
-          localStorage.getItem("token") === null
-            ? swal({
-                title: "Anda belum masuk!",
-                text:
-                  "Untuk melaporkan keluhan, anda diharuskan masuk sebagai pengguna",
-                icon: "error"
-              })
-            : localStorage.getItem("terverifikasi") === "false"
-            ? swal({
-                title: "Anda belum terverifikasi!",
-                text:
-                  "Silahkan mengunggah foto KTP anda untuk mengajukan verifikasi",
-                icon: "error"
-              })
-            : buttonKeluhkan();
-        }}
-      >
+      <button className="navbar-button" onClick={() => buttonKeluhkan()}>
         <h5>
           <FaFileSignature />
         </h5>

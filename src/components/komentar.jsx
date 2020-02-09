@@ -31,7 +31,8 @@ const Komentar = props => {
                   .tz("Asia/Jakarta")
                   .format(),
                 ""
-              ).fromNow()}
+              ).fromNow()}{" "}
+              &#8226; Laporkan
             </p>
           </Col>
         </Row>

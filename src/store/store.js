@@ -44,7 +44,7 @@ export const actions = store => ({
         });
         swal(
           "Pilih Lokasi Gagal!",
-          "Lokasi yang anda cari tidak valid",
+          "Lokasi yang anda cari tidak valid.",
           "error"
         );
       } else {

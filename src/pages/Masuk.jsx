@@ -34,18 +34,26 @@ class Masuk extends React.Component {
     axios(request)
       .then(response => {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("id", response.data.id);
         localStorage.setItem("terverifikasi", response.data.terverifikasi);
         this.setState({ loading: false });
         this.props.history.push("/");
       })
-      .catch(() => {
+      .catch(error => {
         this.setState({ loading: false });
-        swal({
-          title: "Gagal Masuk!",
-          text: "Email/password anda salah",
-          icon: "error"
-        });
+        if (error.response.data.pesan === "Email atau kata sandi salah.") {
+          swal({
+            title: "Gagal Masuk!",
+            text: "Email atau password anda salah.",
+            icon: "error"
+          });
+        } else {
+          swal({
+            title: "Gagal Masuk!",
+            text:
+              "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+            icon: "error"
+          });
+        }
       });
   };
 

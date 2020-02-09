@@ -24,6 +24,10 @@
   font-weight: bold;
 }
 
+.profil-kembali {
+  max-width: 500px;
+}
+
 .profil-keluar {
   margin-left: auto;
 }

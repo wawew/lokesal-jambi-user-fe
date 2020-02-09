@@ -53,7 +53,7 @@ class Keluhkan extends React.Component {
       this.setState({ loading: false });
       swal(
         "Kirim keluhan gagal!",
-        "Isian keterangan keluhan harus diisi",
+        "Isian keterangan keluhan harus diisi.",
         "error"
       );
     } else {
@@ -112,7 +112,7 @@ class Keluhkan extends React.Component {
                       this.setState({ loading: false });
                       swal(
                         "Kirim keluhan gagal!",
-                        "Silahkan coba lagi",
+                        "Silahkan coba lagi.",
                         "error"
                       );
                     });
@@ -123,7 +123,7 @@ class Keluhkan extends React.Component {
           this.setState({ loading: false });
           swal(
             "Kirim keluhan gagal!",
-            "Ekstensi file foto harus jpg, jpeg, atau png",
+            "Ekstensi file foto harus jpg, jpeg, atau png.",
             "error"
           );
         }
@@ -158,7 +158,7 @@ class Keluhkan extends React.Component {
           })
           .catch(() => {
             this.setState({ loading: false });
-            swal("Kirim keluhan gagal!", "Silahkan coba lagi", "error");
+            swal("Kirim keluhan gagal!", "Silahkan coba lagi.", "error");
           });
       }
     }

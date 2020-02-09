@@ -75,7 +75,7 @@ class DetailLaporan extends React.Component {
     } else {
       swal(
         "Gagal Dukung!",
-        "Anda harus masuk supaya bisa mendukung laporan ini",
+        "Anda harus masuk supaya bisa mendukung laporan ini.",
         "error"
       );
     }
@@ -111,7 +111,7 @@ class DetailLaporan extends React.Component {
       });
       swal(
         "Gagal Kirim Komentar!",
-        "Anda harus masuk supaya bisa memberikan komentar anda",
+        "Anda harus masuk supaya bisa memberikan komentar anda.",
         "error"
       );
     }
