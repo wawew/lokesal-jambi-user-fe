@@ -17,12 +17,10 @@ import {
 
 class DaftarLaporan extends React.Component {
   state = {
-    lokasi: "",
-    loading: false
+    lokasi: ""
   };
 
   componentDidMount = () => {
-    this.setState({ loading: true });
     const request = {
       method: "get",
       url: `${store.getState().mapboxUrl}${this.props.longitude},${
@@ -32,8 +30,7 @@ class DaftarLaporan extends React.Component {
     };
     axios(request).then(response => {
       this.setState({
-        lokasi: response.data.features[0].place_name,
-        loading: false
+        lokasi: response.data.features[0].place_name
       });
     });
   };
@@ -56,14 +53,19 @@ class DaftarLaporan extends React.Component {
             )}
           </Col>
           <Col className="daftarlaporan-data">
-            <h1>
-              <div className="daftarlaporan-icon">
-                <FaUser />
-              </div>{" "}
-              {this.props.anonim
-                ? "Anonim"
-                : `${this.props.nama_depan} ${this.props.nama_belakang}`}
-            </h1>
+            {this.props.nama_depan === undefined &&
+            this.props.nama_belakang === undefined ? (
+              <div className="daftarlaporan-riwayat"></div>
+            ) : (
+              <h1>
+                <div className="daftarlaporan-icon">
+                  <FaUser />
+                </div>{" "}
+                {this.props.anonim
+                  ? "Anonim"
+                  : `${this.props.nama_depan} ${this.props.nama_belakang}`}
+              </h1>
+            )}
             <h4>
               <div className="daftarlaporan-icon">
                 <FaMapMarkerAlt />

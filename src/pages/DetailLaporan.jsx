@@ -324,7 +324,13 @@ class DetailLaporan extends React.Component {
                   </Col>
                 </Row>
                 <Row className="detaillaporan-isi">
-                  <Col>{this.state.isi}</Col>
+                  <Col>
+                    {
+                      this.state.tanggapanAdmin[
+                        this.state.tanggapanAdmin.length - 1
+                      ].isi
+                    }
+                  </Col>
                 </Row>
               </Container>
             ) : (

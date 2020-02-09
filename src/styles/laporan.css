@@ -81,3 +81,22 @@
 .laporan-lihat-spinner {
   margin-top: 10px;
 }
+
+.keluhanku {
+  background-color: white;
+  margin-top: 62px;
+  margin-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+.keluhanku h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.keluhanku-spinner {
+  padding-bottom: 70px;
+}
