@@ -30,6 +30,7 @@ import { IoMdSend } from "react-icons/io";
 import "../styles/kembali.css";
 import "../styles/detailLaporan.css";
 import NamaLokasi from "../components/namaLokasi";
+import Komentar from "../components/komentar";
 import { connect } from "unistore/react";
 
 class DetailLaporan extends React.Component {
@@ -49,7 +50,8 @@ class DetailLaporan extends React.Component {
     loading: false,
     didukung: false,
     komentar: "",
-    loadingKirimKomentar: false
+    loadingKirimKomentar: false,
+    daftarKomentar: []
   };
 
   tambahDukungan = () => {
@@ -98,6 +100,7 @@ class DetailLaporan extends React.Component {
       axios(request)
         .then(response => {
           this.setState({
+            komentar: "",
             loadingKirimKomentar: false
           });
         })
@@ -162,6 +165,21 @@ class DetailLaporan extends React.Component {
         });
       });
     }
+    // Get data daftar komentar
+    const requestKomentar = {
+      method: "get",
+      url: `${store.getState().urlBackend}/keluhan/${
+        this.props.match.params.id
+      }/komentar`,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    axios(requestKomentar).then(response => {
+      this.setState({
+        daftarKomentar: response.data.daftar_komentar
+      });
+    });
   };
 
   render() {
@@ -191,7 +209,13 @@ class DetailLaporan extends React.Component {
             </Row>
           </Container>
         ) : (
-          <div className="detaillaporan">
+          <div
+            className={
+              localStorage.getItem("token") === null
+                ? "detaillaporan"
+                : "detaillaporan detaillaporan-bottom"
+            }
+          >
             <Container fluid className="detaillaporan-fotosebelum">
               <Row>
                 <Col>
@@ -334,6 +358,17 @@ class DetailLaporan extends React.Component {
                 </Col>
               </Row>
             </Container>
+            {this.state.daftarKomentar.map(item => {
+              return (
+                <Komentar
+                  namaDepan={item.nama_depan}
+                  namaBelakang={item.nama_belakang}
+                  avatar={item.avatar}
+                  isi={item.detail_komentar.isi}
+                  dibuat={item.detail_komentar.dibuat}
+                />
+              );
+            })}
           </div>
         )}
         {localStorage.getItem("token") === null ? (
@@ -347,6 +382,7 @@ class DetailLaporan extends React.Component {
                     <Form.Control
                       type="text"
                       placeholder="Kirim komentar anda"
+                      value={this.state.komentar}
                       onChange={event =>
                         this.setState({ komentar: event.target.value })
                       }
@@ -355,6 +391,10 @@ class DetailLaporan extends React.Component {
                       {this.state.loadingKirimKomentar ? (
                         <Button variant="success" disabled>
                           <FaEllipsisH />
+                        </Button>
+                      ) : this.state.komentar === "" ? (
+                        <Button variant="success" disabled>
+                          <IoMdSend />
                         </Button>
                       ) : (
                         <Button

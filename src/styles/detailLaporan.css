@@ -1,11 +1,15 @@
 .detaillaporan {
   margin-top: 60px;
+  margin-bottom: 10px;
+}
+
+.detaillaporan-bottom {
   margin-bottom: 47px;
 }
 
 .detaillaporan-loading {
   background-color: white;
-  margin-top: 10px;
+  margin-top: 60px;
   padding-top: 15px;
   padding-bottom: 15px;
   text-align: center;
