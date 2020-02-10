@@ -13,7 +13,8 @@ import {
   Spinner,
   Form,
   Button,
-  InputGroup
+  InputGroup,
+  Carousel
 } from "react-bootstrap";
 import {
   FaChevronLeft,
@@ -248,19 +249,58 @@ class DetailLaporan extends React.Component {
                 : "detaillaporan detaillaporan-bottom"
             }
           >
-            <Container fluid className="detaillaporan-fotosebelum">
-              <Row>
-                <Col>
-                  {this.state.fotoSebelum === "" ? (
-                    <div className="detaillaporan-fotosebelum-foto">
-                      <FaImage />
-                    </div>
-                  ) : (
-                    <img alt="foto sebelum" src={this.state.fotoSebelum} />
-                  )}
-                </Col>
-              </Row>
-            </Container>
+            {this.state.status === "selesai" ? (
+              <div className="detaillaporan-luarcarousel">
+                <Carousel className="detaillaporan-carousel">
+                  <Carousel.Item>
+                    {this.state.fotoSebelum === "" ? (
+                      <div className="detaillaporan-carouselkosong">
+                        <FaImage />
+                      </div>
+                    ) : (
+                      <img
+                        className="d-block w-100"
+                        src={this.state.fotoSebelum}
+                        alt="foto sebelum"
+                      />
+                    )}
+                    <Carousel.Caption>
+                      <p>Foto Sebelum</p>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    {this.state.fotoSesudah === "" ? (
+                      <div className="detaillaporan-carouselkosong">
+                        <FaImage />
+                      </div>
+                    ) : (
+                      <img
+                        className="d-block w-100"
+                        src={this.state.fotoSesudah}
+                        alt="foto sebelum"
+                      />
+                    )}
+                    <Carousel.Caption>
+                      <p>Foto Sesudah</p>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                </Carousel>
+              </div>
+            ) : (
+              <Container fluid className="detaillaporan-fotosebelum">
+                <Row>
+                  <Col>
+                    {this.state.fotoSebelum === "" ? (
+                      <div className="detaillaporan-fotosebelum-foto">
+                        <FaImage />
+                      </div>
+                    ) : (
+                      <img alt="foto sebelum" src={this.state.fotoSebelum} />
+                    )}
+                  </Col>
+                </Row>
+              </Container>
+            )}
             <Container fluid className="detaillaporan-status">
               <Row>
                 {this.state.status === "diterima" ? (
