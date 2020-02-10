@@ -2,14 +2,14 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import Kembali from "../components/kembali";
 import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
-import { FaIdCard } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import swal from "sweetalert";
 import axios from "axios";
 import { storage } from "../config/firebase";
 import moment from "moment";
 import { store } from "../store/store";
 
-class UnggahKTP extends React.Component {
+class UnggahFoto extends React.Component {
   state = {
     foto: null,
     urlFoto: "",
@@ -46,11 +46,34 @@ class UnggahKTP extends React.Component {
     }
   };
 
+  hapusFoto = () => {
+    this.setState({ loading: true });
+    const request = {
+      method: "put",
+      url: `${store.getState().urlBackend}/pengguna/profil`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      data: {
+        avatar: ""
+      }
+    };
+    axios(request)
+      .then(response => {
+        this.setState({ loading: false, urlFoto: "" });
+      })
+      .catch(() => {
+        this.setState({ loading: false });
+        swal("Hapus foto gagal!", "Silahkan coba lagi.", "error");
+      });
+  };
+
   unggahFoto = () => {
     this.setState({ loading: true });
     const link = `${moment().format()}_${this.state.foto.name}`;
     const uploadTask = storage
-      .ref("ktp")
+      .ref("profil")
       .child(link)
       .put(this.state.foto);
     uploadTask.on(
@@ -59,7 +82,7 @@ class UnggahKTP extends React.Component {
       () => console.log("..."),
       () => {
         storage
-          .ref("ktp")
+          .ref("profil")
           .child(link)
           .getDownloadURL()
           .then(url => {
@@ -72,21 +95,67 @@ class UnggahKTP extends React.Component {
                 "Content-Type": "application/json"
               },
               data: {
-                ktp: this.state.linkFoto
+                avatar: this.state.linkFoto
               }
             };
             axios(request)
               .then(response => {
-                this.setState({ loading: false });
+                this.setState({
+                  loading: false,
+                  urlFoto: response.data.avatar
+                });
                 this.props.history.push("/profil");
               })
               .catch(() => {
                 this.setState({ loading: false });
-                swal("Unggah foto KTP gagal!", "Silahkan coba lagi.", "error");
+                swal("Unggah foto gagal!", "Silahkan coba lagi.", "error");
               });
           });
       }
     );
+  };
+
+  batal = () => {
+    document.querySelector("#profil-unggahfoto").value = "";
+    this.setState({ foto: null, loading: true });
+    const request = {
+      method: "get",
+      url: `${store.getState().urlBackend}/pengguna/profil`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      }
+    };
+    axios(request)
+      .then(response => {
+        this.setState({
+          loading: false,
+          urlFoto: response.data.avatar,
+          foto: null
+        });
+      })
+      .catch(() => {
+        this.setState({ loading: false });
+      });
+  };
+
+  componentDidMount = () => {
+    this.setState({ loading: true });
+    const request = {
+      method: "get",
+      url: `${store.getState().urlBackend}/pengguna/profil`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      }
+    };
+    axios(request)
+      .then(response => {
+        this.setState({ loading: false, urlFoto: response.data.avatar });
+      })
+      .catch(() => {
+        this.setState({ loading: false });
+      });
   };
 
   render() {
@@ -96,13 +165,15 @@ class UnggahKTP extends React.Component {
         <Container className="profil-perbaruiktp">
           <Row>
             <Col>
-              <h2>Unggah Foto KTP</h2>
+              <h2>Perbarui Foto Profil</h2>
               {this.state.urlFoto === "" ? (
-                <div className="profil-perbaruiktp-kosong">
-                  <FaIdCard />
+                <div className="profil-unggahfoto-kosong">
+                  <FaUserCircle />
                 </div>
               ) : (
-                <img alt="ktp" src={this.state.urlFoto} />
+                <div className="profil-perbaruifoto">
+                  <img alt="foto" src={this.state.urlFoto} />
+                </div>
               )}
             </Col>
           </Row>
@@ -111,21 +182,31 @@ class UnggahKTP extends React.Component {
             <Col xs="auto">
               <input
                 type="file"
-                id="profil-unggahktp"
+                id="profil-unggahfoto"
                 style={{ display: "none" }}
                 onChange={this.ubahFoto}
               />
               {this.state.loading === true ? (
                 <Spinner variant="success" animation="grow" />
-              ) : this.state.urlFoto === "" ? (
-                <Button
-                  variant="secondary"
-                  onClick={() =>
-                    document.getElementById("profil-unggahktp").click()
-                  }
-                >
-                  Pilih Foto
-                </Button>
+              ) : this.state.foto === null ? (
+                <div>
+                  <Button
+                    variant="secondary"
+                    style={{ marginRight: "5px" }}
+                    onClick={() =>
+                      document.getElementById("profil-unggahfoto").click()
+                    }
+                  >
+                    Ubah Foto
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => this.hapusFoto()}
+                    style={{ marginLeft: "5px" }}
+                  >
+                    Hapus Foto
+                  </Button>
+                </div>
               ) : (
                 <div>
                   <Button
@@ -138,10 +219,7 @@ class UnggahKTP extends React.Component {
                   <Button
                     variant="danger"
                     style={{ marginLeft: "5px" }}
-                    onClick={() => {
-                      document.querySelector("#profil-unggahktp").value = "";
-                      this.setState({ foto: null, urlFoto: "" });
-                    }}
+                    onClick={() => this.batal()}
                   >
                     Batal
                   </Button>
@@ -156,4 +234,4 @@ class UnggahKTP extends React.Component {
   }
 }
 
-export default withRouter(UnggahKTP);
+export default withRouter(UnggahFoto);
