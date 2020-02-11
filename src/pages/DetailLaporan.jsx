@@ -120,6 +120,7 @@ class DetailLaporan extends React.Component {
         .then(response => {
           this.setState({
             daftarKomentar: this.state.daftarKomentar.concat([response.data]),
+            totalKomentar: response.data.total_komentar,
             komentar: "",
             loadingKirimKomentar: false
           });
@@ -169,6 +170,7 @@ class DetailLaporan extends React.Component {
           daftarKomentar: response.data.daftar_komentar.concat(
             this.state.daftarKomentar
           ),
+          totalKomentar: response.data.total_komentar,
           halaman: response.data.halaman,
           totalHalaman: response.data.total_halaman,
           loadingLihatKomentar: false

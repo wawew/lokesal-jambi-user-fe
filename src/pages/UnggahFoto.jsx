@@ -235,6 +235,8 @@ class UnggahFoto extends React.Component {
                 id="profil-unggahfoto"
                 style={{ display: "none" }}
                 onChange={this.ubahFoto}
+                accept="image/jpeg"
+                capture="camera"
               />
               {this.state.loading === true ? (
                 <Spinner variant="success" animation="grow" />

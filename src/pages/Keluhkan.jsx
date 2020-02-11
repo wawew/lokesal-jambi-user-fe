@@ -105,7 +105,7 @@ class Keluhkan extends React.Component {
                     .then(response => {
                       this.setState({ loading: false });
                       store.setState({ isiKeluhan: "", anonim: false });
-                      this.props.history.push(`/keluhan/${response.data.id}`);
+                      this.props.history.push("/keluhanku");
                     })
                     .catch(error => {
                       this.setState({ loading: false });
@@ -166,7 +166,7 @@ class Keluhkan extends React.Component {
               linkFoto: "",
               namaFoto: ""
             });
-            this.props.history.push(`/keluhan/${response.data.id}`);
+            this.props.history.push("/keluhanku");
           })
           .catch(error => {
             this.setState({ loading: false });
@@ -241,6 +241,8 @@ class Keluhkan extends React.Component {
                 id="keluhkan-unggah-foto"
                 className="keluhkan-unggah-foto"
                 onChange={this.ubahFoto}
+                accept="image/jpeg"
+                capture="camera"
               />
               <Button
                 variant="secondary"

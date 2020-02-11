@@ -136,6 +136,8 @@ class UnggahKTP extends React.Component {
                 id="profil-unggahktp"
                 style={{ display: "none" }}
                 onChange={this.ubahFoto}
+                accept="image/jpeg"
+                capture="camera"
               />
               {this.state.loading === true ? (
                 <Spinner variant="success" animation="grow" />
