@@ -70,12 +70,27 @@ class DetailLaporan extends React.Component {
           "Content-Type": "application/json"
         }
       };
-      axios(request).then(response => {
-        this.setState({
-          didukung: response.data.dukung,
-          totalDukungan: response.data.total_dukungan
+      axios(request)
+        .then(response => {
+          this.setState({
+            didukung: response.data.dukung,
+            totalDukungan: response.data.total_dukungan
+          });
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Dukung!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
         });
-      });
     } else {
       swal(
         "Gagal Dukung!",
@@ -110,7 +125,21 @@ class DetailLaporan extends React.Component {
           });
           window.scrollTo(0, document.body.scrollHeight);
         })
-        .catch(() => this.setState({ loadingKirimKomentar: false }));
+        .catch(error => {
+          this.setState({ loadingKirimKomentar: false });
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Kirim Komentar!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
+        });
     } else {
       this.setState({
         loadingKirimKomentar: false
@@ -190,11 +219,26 @@ class DetailLaporan extends React.Component {
           "Content-Type": "application/json"
         }
       };
-      axios(requestDukung).then(response => {
-        this.setState({
-          didukung: response.data.dukung
+      axios(requestDukung)
+        .then(response => {
+          this.setState({
+            didukung: response.data.dukung
+          });
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Masuk!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
         });
-      });
     }
     // Get data daftar komentar
     const requestKomentar = {

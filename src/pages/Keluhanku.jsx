@@ -7,6 +7,7 @@ import Kembali from "../components/kembali";
 import DaftarLaporan from "../components/daftarLaporan";
 import "../styles/laporan.css";
 import { FaCommentSlash } from "react-icons/fa";
+import swal from "sweetalert";
 
 class Keluhanku extends React.Component {
   state = {
@@ -39,7 +40,21 @@ class Keluhanku extends React.Component {
           loadingSelanjutnya: false
         });
       })
-      .catch(() => this.setState({ loadingSelanjutnya: false }));
+      .catch(error => {
+        this.setState({ loadingSelanjutnya: false });
+        if (error.response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("terverifikasi");
+          localStorage.removeItem("id");
+          swal({
+            title: "Gagal Masuk!",
+            text:
+              "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+            icon: "error"
+          });
+          this.props.history.push("/masuk");
+        }
+      });
   };
 
   componentDidMount = () => {
@@ -68,7 +83,21 @@ class Keluhanku extends React.Component {
             loadingLaporan: false
           });
         })
-        .catch(() => this.setState({ loadingLaporan: false }));
+        .catch(error => {
+          this.setState({ loadingLaporan: false });
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Dukung!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
+        });
     }
   };
 

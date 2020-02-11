@@ -78,11 +78,33 @@ class UnggahKTP extends React.Component {
             axios(request)
               .then(response => {
                 this.setState({ loading: false });
+                swal(
+                  "Unggah foto KTP berhasil!",
+                  "Silahkan tunggu respon dari admin.",
+                  "success"
+                );
                 this.props.history.push("/profil");
               })
-              .catch(() => {
+              .catch(error => {
                 this.setState({ loading: false });
-                swal("Unggah foto KTP gagal!", "Silahkan coba lagi.", "error");
+                if (error.response.status === 401) {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("terverifikasi");
+                  localStorage.removeItem("id");
+                  swal({
+                    title: "Gagal Masuk!",
+                    text:
+                      "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+                    icon: "error"
+                  });
+                  this.props.history.push("/masuk");
+                } else {
+                  swal(
+                    "Unggah foto KTP gagal!",
+                    "Silahkan coba lagi.",
+                    "error"
+                  );
+                }
               });
           });
       }

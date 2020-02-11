@@ -45,7 +45,21 @@ class Profil extends React.Component {
             loading: false
           });
         })
-        .catch(() => this.setState({ loading: false }));
+        .catch(error => {
+          this.setState({ loading: false });
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Masuk!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
+        });
     }
   };
 
@@ -59,6 +73,7 @@ class Profil extends React.Component {
       if (willDelete) {
         localStorage.removeItem("token");
         localStorage.removeItem("terverifikasi");
+        localStorage.removeItem("id");
         this.props.history.push("/masuk");
       }
     });

@@ -107,13 +107,26 @@ class Keluhkan extends React.Component {
                       store.setState({ isiKeluhan: "", anonim: false });
                       this.props.history.push(`/keluhan/${response.data.id}`);
                     })
-                    .catch(() => {
+                    .catch(error => {
                       this.setState({ loading: false });
-                      swal(
-                        "Kirim keluhan gagal!",
-                        "Silahkan coba lagi.",
-                        "error"
-                      );
+                      if (error.response.status === 401) {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("terverifikasi");
+                        localStorage.removeItem("id");
+                        swal({
+                          title: "Gagal Masuk!",
+                          text:
+                            "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+                          icon: "error"
+                        });
+                        this.props.history.push("/masuk");
+                      } else {
+                        swal(
+                          "Kirim keluhan gagal!",
+                          "Silahkan coba lagi.",
+                          "error"
+                        );
+                      }
                     });
                 });
             }
@@ -155,9 +168,22 @@ class Keluhkan extends React.Component {
             });
             this.props.history.push(`/keluhan/${response.data.id}`);
           })
-          .catch(() => {
+          .catch(error => {
             this.setState({ loading: false });
-            swal("Kirim keluhan gagal!", "Silahkan coba lagi.", "error");
+            if (error.response.status === 401) {
+              localStorage.removeItem("token");
+              localStorage.removeItem("terverifikasi");
+              localStorage.removeItem("id");
+              swal({
+                title: "Gagal Masuk!",
+                text:
+                  "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+                icon: "error"
+              });
+              this.props.history.push("/masuk");
+            } else {
+              swal("Kirim keluhan gagal!", "Silahkan coba lagi.", "error");
+            }
           });
       }
     }

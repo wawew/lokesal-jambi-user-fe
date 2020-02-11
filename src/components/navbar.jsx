@@ -23,7 +23,7 @@ const Navbar = props => {
           "Untuk melaporkan keluhan, anda diharuskan masuk sebagai pengguna.",
         icon: "error"
       });
-    } else if (localStorage.getItem("terverifikasi") === "false") {
+    } else {
       const request = {
         method: "get",
         url: `${store.getState().urlBackend}/pengguna/profil`,
@@ -32,41 +32,56 @@ const Navbar = props => {
           "Content-Type": "application/json"
         }
       };
-      axios(request).then(response => {
-        if (response.data.terverifikasi === true) {
-          localStorage.setItem("terverifikasi", "true");
-          store.setState({
-            lng: 0,
-            lat: 0,
-            isiKeluhan: "",
-            anonim: false,
-            foto: null,
-            uriFoto: "",
-            linkFoto: "",
-            namaFoto: ""
-          });
-          props.history.push("/keluhkan");
-        } else {
-          swal({
-            title: "Anda belum terverifikasi!",
-            text:
-              "Silahkan mengunggah foto KTP anda untuk mengajukan verifikasi.",
-            icon: "error"
-          });
-        }
-      });
-    } else {
-      store.setState({
-        lng: 0,
-        lat: 0,
-        isiKeluhan: "",
-        anonim: false,
-        foto: null,
-        uriFoto: "",
-        linkFoto: "",
-        namaFoto: ""
-      });
-      props.history.push("/keluhkan");
+      axios(request)
+        .then(response => {
+          if (localStorage.getItem("terverifikasi") === true) {
+            store.setState({
+              lng: 0,
+              lat: 0,
+              isiKeluhan: "",
+              anonim: false,
+              foto: null,
+              uriFoto: "",
+              linkFoto: "",
+              namaFoto: ""
+            });
+            props.history.push("/keluhkan");
+          } else if (response.data.terverifikasi === true) {
+            localStorage.setItem("terverifikasi", "true");
+            store.setState({
+              lng: 0,
+              lat: 0,
+              isiKeluhan: "",
+              anonim: false,
+              foto: null,
+              uriFoto: "",
+              linkFoto: "",
+              namaFoto: ""
+            });
+            props.history.push("/keluhkan");
+          } else {
+            swal({
+              title: "Anda belum terverifikasi!",
+              text:
+                "Silahkan mengunggah foto KTP anda untuk mengajukan verifikasi.",
+              icon: "error"
+            });
+          }
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Masuk!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            props.history.push("/masuk");
+          }
+        });
     }
   };
 
