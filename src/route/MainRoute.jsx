@@ -6,6 +6,12 @@ import Beranda from "../pages/Beranda";
 import Masuk from "../pages/Masuk";
 import Daftar from "../pages/Daftar";
 import Profil from "../pages/Profil";
+import UnggahKTP from "../pages/UnggahKTP";
+import UnggahFoto from "../pages/UnggahFoto";
+import PerbaruiNama from "../pages/PerbaruiNama";
+import PerbaruiEmail from "../pages/PerbaruiEmail";
+import PerbaruiTelepon from "../pages/PerbaruiTelepon";
+import PerbaruiPassword from "../pages/PerbaruiPassword";
 import Keluhkan from "../pages/Keluhkan";
 import CariLokasi from "../pages/CariLokasi";
 import PetaLokasi from "../pages/PetaLokasi";
@@ -23,6 +29,12 @@ const MainRoute = () => {
           <Route exact path="/masuk" component={Masuk} />
           <Route exact path="/daftar" component={Daftar} />
           <Route exact path="/profil" component={Profil} />
+          <Route exact path="/unggahktp" component={UnggahKTP} />
+          <Route exact path="/unggahfoto" component={UnggahFoto} />
+          <Route exact path="/perbaruinama" component={PerbaruiNama} />
+          <Route exact path="/perbaruiemail" component={PerbaruiEmail} />
+          <Route exact path="/perbaruitelepon" component={PerbaruiTelepon} />
+          <Route exact path="/perbaruipassword" component={PerbaruiPassword} />
           <Route exact path="/keluhkan" component={Keluhkan} />
           <Route exact path="/carilokasi" component={CariLokasi} />
           <Route exact path="/petalokasi" component={PetaLokasi} />

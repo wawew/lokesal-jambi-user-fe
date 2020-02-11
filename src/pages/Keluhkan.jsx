@@ -10,7 +10,6 @@ import { Spinner, Container, Row, Col, Form, Button } from "react-bootstrap";
 import "../styles/namaLokasi.css";
 import "../styles/keluhkan.css";
 import { FaImage } from "react-icons/fa";
-import "react-html5-camera-photo/build/css/index.css";
 import swal from "sweetalert";
 import axios from "axios";
 
@@ -229,7 +228,7 @@ class Keluhkan extends React.Component {
               <Button
                 variant="danger"
                 onClick={() => {
-                  document.querySelector("#customFile").value = "";
+                  document.querySelector("#keluhkan-unggah-foto").value = "";
                   store.setState({ foto: null, uriFoto: "", namaFoto: "" });
                 }}
               >

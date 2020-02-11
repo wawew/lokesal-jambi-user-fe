@@ -1,0 +1,172 @@
+.profil-foto {
+  background-color: white;
+  color: rgb(220, 220, 220);
+  margin-top: 15px;
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.profil-foto img {
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.profil-foto-kosong {
+  font-size: 200px;
+  height: 200px;
+  transform: translateY(-65px);
+}
+
+.profil-data {
+  background-color: white;
+  color: gray;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.profil-data .col {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.profil-data h3 {
+  color: black;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.profil-bottom {
+  background-color: white;
+  height: 57px;
+}
+
+.profil-edit-button {
+  display: inline-block;
+  transform: translateY(-1px);
+}
+
+.profil-loading {
+  background-color: white;
+  margin-top: 62px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.profil-verifikasi-true {
+  height: 47px;
+}
+
+.profil-verifikasi-false {
+  background-color: rgb(255, 255, 180);
+  margin-top: 62px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: rgb(80, 120, 80);
+  text-align: center;
+}
+
+.profil-verifikasi-false p {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.profil-verifikasi-false button {
+  font-weight: bold;
+}
+
+.profil-unggahfoto {
+  background-color: rgb(80, 120, 80);
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  padding-top: 3px;
+  font-size: 20px;
+  color: white;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.profil-perbaruiktp {
+  background-color: white;
+  margin-top: 62px;
+  padding-bottom: 15px;
+}
+
+.profil-perbaruiktp h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.profil-perbaruiktp img {
+  height: 170px;
+  width: 270px;
+  object-fit: cover;
+  display: block;
+  margin: 15px auto;
+}
+
+.profil-perbaruiktp-kosong {
+  background-color: rgb(220, 220, 220);
+  height: 170px;
+  width: 270px;
+  padding-top: 42px;
+  font-size: 50px;
+  text-align: center;
+  margin: 15px auto;
+}
+
+.profil-unggahfoto-kosong {
+  text-align: center;
+  font-size: 200px;
+  color: rgb(220, 220, 220);
+  transform: translateY(-55px);
+  height: 230px;
+}
+
+.profil-perbaruifoto img {
+  border-radius: 100%;
+  height: 200px;
+  width: 200px;
+}
+
+.profil-perbaruinama {
+  background-color: white;
+  margin-top: 62px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.profil-perbaruinama h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.profil-perbarui-form .form-group {
+  margin-bottom: 10px;
+}
+
+.profil-perbarui-form label {
+  margin-bottom: 0;
+}
+
+.profil-perbarui-form button {
+  display: block;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profil-perbarui-spinner {
+  text-align: center;
+}
