@@ -32,7 +32,10 @@ const Komentar = props => {
                   .format(),
                 ""
               ).fromNow()}{" "}
-              &#8226; Laporkan
+              &#8226;{" "}
+              <span onClick={() => props.laporkanKomentar(props.id)}>
+                Laporkan
+              </span>
             </p>
           </Col>
         </Row>

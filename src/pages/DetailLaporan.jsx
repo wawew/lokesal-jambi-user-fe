@@ -179,6 +179,37 @@ class DetailLaporan extends React.Component {
       .catch(() => this.setState({ loadingLihatKomentar: false }));
   };
 
+  laporkanKomentar = id => {
+    const request = {
+      method: "put",
+      url: `${store.getState().urlBackend}/pengguna/keluhan/komentar/${id}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      }
+    };
+    axios(request)
+      .then(() => {
+        swal("Laporkan Komentar Berhasil!", "", "success");
+      })
+      .catch(error => {
+        if (error.response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("terverifikasi");
+          localStorage.removeItem("id");
+          swal({
+            title: "Gagal Masuk!",
+            text:
+              "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+            icon: "error"
+          });
+          this.props.history.push("/masuk");
+        } else {
+          swal("Laporkan Komentar Gagal!", "", "error");
+        }
+      });
+  };
+
   componentDidMount = () => {
     this.setState({ loading: true });
     // Get data detail keluhan
@@ -506,11 +537,13 @@ class DetailLaporan extends React.Component {
             {this.state.daftarKomentar.map(item => {
               return (
                 <Komentar
+                  id={item.detail_komentar.id}
                   namaDepan={item.nama_depan}
                   namaBelakang={item.nama_belakang}
                   avatar={item.avatar}
                   isi={item.detail_komentar.isi}
                   dibuat={item.detail_komentar.dibuat}
+                  laporkanKomentar={this.laporkanKomentar}
                 />
               );
             })}
