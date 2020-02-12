@@ -720,3 +720,10 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
   top: 60px;
   right: 10px;
 }
+
+.marker {
+  background-image: url("../images/marker.png");
+  background-size: cover;
+  height: 30px;
+  width: 30px;
+}
