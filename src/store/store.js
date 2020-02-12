@@ -20,7 +20,9 @@ const initialState = {
   foto: null,
   uriFoto: "",
   linkFoto: "",
-  namaFoto: ""
+  namaFoto: "",
+  newsApiUrl: "https://newsapi.org/v2/top-headlines?country=id&apiKey=",
+  newsApiKey: "1e5a0e4ceb9546ecb4dcfb91a008b874"
 };
 
 export const store = createStore(initialState);

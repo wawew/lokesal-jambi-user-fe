@@ -48,6 +48,7 @@ class Daftar extends React.Component {
       .then(response => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("terverifikasi", response.data.terverifikasi);
+        localStorage.setItem("id", response.data.id);
         this.setState({ loading: false });
         swal({
           title: "Berhasil Daftar!",
@@ -58,13 +59,15 @@ class Daftar extends React.Component {
       })
       .catch(error => {
         this.setState({ loading: false });
-        if (error.response.data.pesan === "Email sudah terdaftar.") {
+        if (error.response.data.pesan === "Email sudah ada yang memakai.") {
           swal({
             title: "Gagal Daftar!",
             text: "Email anda sudah terdaftar.",
             icon: "error"
           });
-        } else if (error.response.data.pesan === "Telepon sudah terdaftar.") {
+        } else if (
+          error.response.data.pesan === "Nomor telepon sudah ada yang memakai."
+        ) {
           swal({
             title: "Gagal Daftar!",
             text: "Nomor telepon anda sudah terdaftar.",

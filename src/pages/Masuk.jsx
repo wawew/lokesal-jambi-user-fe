@@ -35,6 +35,7 @@ class Masuk extends React.Component {
       .then(response => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("terverifikasi", response.data.terverifikasi);
+        localStorage.setItem("id", response.data.id);
         this.setState({ loading: false });
         this.props.history.push("/");
       })

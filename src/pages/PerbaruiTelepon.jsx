@@ -41,11 +41,27 @@ class PerbaruiTelepon extends React.Component {
       .catch(error => {
         this.setState({ loading: false });
         if (error.response.status === 401) {
-          swal(
-            "Perbarui nomor telepon gagal!",
-            "Password yang anda masukkan salah.",
-            "error"
-          );
+          if (
+            error.response.data.pesan ===
+            "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut."
+          ) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Masuk!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          } else {
+            swal(
+              "Perbarui nomor telepon gagal!",
+              "Password yang anda masukkan salah.",
+              "error"
+            );
+          }
         } else if (
           error.response.data.pesan === "Nomor telepon yang anda masukan salah."
         ) {

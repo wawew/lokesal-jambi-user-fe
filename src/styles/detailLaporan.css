@@ -207,3 +207,26 @@
   height: 200px;
   width: 200px;
 }
+
+.detaillaporan-kepuasan {
+  background-color: rgb(255, 255, 180);
+  color: rgb(80, 120, 80);
+  margin-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.detaillaporan-kepuasan p {
+  margin-bottom: 10px;
+}
+
+.detaillaporan-kepuasan h3 {
+  font-size: 32px;
+  text-align: center;
+}
+
+.detaillaporan-kepuasan h4 {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}

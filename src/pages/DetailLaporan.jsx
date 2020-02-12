@@ -25,7 +25,9 @@ import {
   FaImage,
   FaHandHoldingHeart,
   FaComments,
-  FaEllipsisH
+  FaEllipsisH,
+  FaGrinBeam,
+  FaFrown
 } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import "../styles/kembali.css";
@@ -36,6 +38,8 @@ import { connect } from "unistore/react";
 
 class DetailLaporan extends React.Component {
   state = {
+    idPengguna: null,
+    kepuasan: null,
     fotoSebelum: "",
     fotoSesudah: "",
     status: "",
@@ -58,6 +62,32 @@ class DetailLaporan extends React.Component {
     loadingLihatKomentar: false
   };
 
+  kirimUlasan = ulasan => {
+    const request = {
+      method: "put",
+      url: `${store.getState().urlBackend}/pengguna/keluhan/${
+        this.props.match.params.id
+      }`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      data: { kepuasan: ulasan }
+    };
+    axios(request)
+      .then(() => {
+        this.setState({ kepuasan: ulasan });
+        swal(
+          "Ulasan Berhasil Dikirim!",
+          "Terima kasih atas masukan yang telah anda berikan.",
+          "success"
+        );
+      })
+      .catch(error => {
+        swal("Gagal Kirim Ulasan!", error.response.data.pesan, "error");
+      });
+  };
+
   tambahDukungan = () => {
     if (localStorage.getItem("token") !== null) {
       const request = {
@@ -70,12 +100,27 @@ class DetailLaporan extends React.Component {
           "Content-Type": "application/json"
         }
       };
-      axios(request).then(response => {
-        this.setState({
-          didukung: response.data.dukung,
-          totalDukungan: response.data.total_dukungan
+      axios(request)
+        .then(response => {
+          this.setState({
+            didukung: response.data.dukung,
+            totalDukungan: response.data.total_dukungan
+          });
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Dukung!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
         });
-      });
     } else {
       swal(
         "Gagal Dukung!",
@@ -105,12 +150,27 @@ class DetailLaporan extends React.Component {
         .then(response => {
           this.setState({
             daftarKomentar: this.state.daftarKomentar.concat([response.data]),
+            totalKomentar: response.data.total_komentar,
             komentar: "",
             loadingKirimKomentar: false
           });
           window.scrollTo(0, document.body.scrollHeight);
         })
-        .catch(() => this.setState({ loadingKirimKomentar: false }));
+        .catch(error => {
+          this.setState({ loadingKirimKomentar: false });
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Kirim Komentar!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
+        });
     } else {
       this.setState({
         loadingKirimKomentar: false
@@ -140,12 +200,53 @@ class DetailLaporan extends React.Component {
           daftarKomentar: response.data.daftar_komentar.concat(
             this.state.daftarKomentar
           ),
+          totalKomentar: response.data.total_komentar,
           halaman: response.data.halaman,
           totalHalaman: response.data.total_halaman,
           loadingLihatKomentar: false
         });
       })
       .catch(() => this.setState({ loadingLihatKomentar: false }));
+  };
+
+  laporkanKomentar = id => {
+    swal({
+      title: "Anda yakin mau melaporkan komentar ini?",
+      icon: "warning",
+      buttons: ["Tidak", "Ya"],
+      dangerMode: "Ya"
+    }).then(willDelete => {
+      if (willDelete) {
+        const request = {
+          method: "put",
+          url: `${store.getState().urlBackend}/pengguna/keluhan/komentar/${id}`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json"
+          }
+        };
+        axios(request)
+          .then(() => {
+            swal("Laporkan Komentar Berhasil!", "", "success");
+          })
+          .catch(error => {
+            if (error.response.status === 401) {
+              localStorage.removeItem("token");
+              localStorage.removeItem("terverifikasi");
+              localStorage.removeItem("id");
+              swal({
+                title: "Gagal Masuk!",
+                text:
+                  "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+                icon: "error"
+              });
+              this.props.history.push("/masuk");
+            } else {
+              swal("Laporkan Komentar Gagal!", "", "error");
+            }
+          });
+      }
+    });
   };
 
   componentDidMount = () => {
@@ -161,6 +262,8 @@ class DetailLaporan extends React.Component {
     axios(request)
       .then(response => {
         this.setState({
+          idPengguna: response.data.id_pengguna,
+          kepuasan: response.data.kepuasan,
           fotoSebelum: response.data.foto_sebelum,
           fotoSesudah: response.data.foto_sesudah,
           status: response.data.status,
@@ -190,11 +293,26 @@ class DetailLaporan extends React.Component {
           "Content-Type": "application/json"
         }
       };
-      axios(requestDukung).then(response => {
-        this.setState({
-          didukung: response.data.dukung
+      axios(requestDukung)
+        .then(response => {
+          this.setState({
+            didukung: response.data.dukung
+          });
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("terverifikasi");
+            localStorage.removeItem("id");
+            swal({
+              title: "Gagal Masuk!",
+              text:
+                "Akun anda telah dinonaktifkan. Silahkan hubungi Admin untuk informasi lebih lanjut.",
+              icon: "error"
+            });
+            this.props.history.push("/masuk");
+          }
         });
-      });
     }
     // Get data daftar komentar
     const requestKomentar = {
@@ -249,6 +367,46 @@ class DetailLaporan extends React.Component {
                 : "detaillaporan detaillaporan-bottom"
             }
           >
+            {this.state.idPengguna === localStorage.getItem("id") * 1 &&
+            this.state.kepuasan === null &&
+            this.state.status === "selesai" ? (
+              <Container fluid className="detaillaporan-kepuasan">
+                <Row>
+                  <Col>
+                    <p>
+                      Bagaimana penilaianmu terhadap proses dan hasil kerja kami
+                      dalam menyelesaikan permasalahan ini?
+                    </p>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs="2"></Col>
+                  <Col
+                    className="text-danger"
+                    style={{ paddingRight: 0 }}
+                    onClick={() => this.kirimUlasan("tidak_puas")}
+                  >
+                    <h3>
+                      <FaFrown />
+                    </h3>
+                    <h4>Kurang Puas</h4>
+                  </Col>
+                  <Col
+                    className="text-success"
+                    style={{ paddingLeft: 0 }}
+                    onClick={() => this.kirimUlasan("puas")}
+                  >
+                    <h3>
+                      <FaGrinBeam />
+                    </h3>
+                    <h4>Puas</h4>
+                  </Col>
+                  <Col xs="2"></Col>
+                </Row>
+              </Container>
+            ) : (
+              <div></div>
+            )}
             {this.state.status === "selesai" ? (
               <div className="detaillaporan-luarcarousel">
                 <Carousel className="detaillaporan-carousel">
@@ -460,11 +618,13 @@ class DetailLaporan extends React.Component {
             {this.state.daftarKomentar.map(item => {
               return (
                 <Komentar
+                  id={item.detail_komentar.id}
                   namaDepan={item.nama_depan}
                   namaBelakang={item.nama_belakang}
                   avatar={item.avatar}
                   isi={item.detail_komentar.isi}
                   dibuat={item.detail_komentar.dibuat}
+                  laporkanKomentar={this.laporkanKomentar}
                 />
               );
             })}

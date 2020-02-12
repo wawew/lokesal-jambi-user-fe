@@ -32,6 +32,10 @@
 }
 
 .daftarlaporan h3 {
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 15px;
   margin-bottom: 5px;
 }
