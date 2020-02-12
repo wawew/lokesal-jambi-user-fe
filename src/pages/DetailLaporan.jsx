@@ -27,7 +27,8 @@ import {
   FaComments,
   FaEllipsisH,
   FaGrinBeam,
-  FaFrown
+  FaFrown,
+  FaTimes
 } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import "../styles/kembali.css";
@@ -59,7 +60,9 @@ class DetailLaporan extends React.Component {
     daftarKomentar: [],
     halaman: 1,
     totalHalaman: 1,
-    loadingLihatKomentar: false
+    loadingLihatKomentar: false,
+    popupSebelum: false,
+    popupSesudah: false
   };
 
   kirimUlasan = ulasan => {
@@ -420,6 +423,7 @@ class DetailLaporan extends React.Component {
                         className="d-block w-100"
                         src={this.state.fotoSebelum}
                         alt="foto sebelum"
+                        onClick={() => this.setState({ popupSebelum: true })}
                       />
                     )}
                     <Carousel.Caption>
@@ -435,7 +439,8 @@ class DetailLaporan extends React.Component {
                       <img
                         className="d-block w-100"
                         src={this.state.fotoSesudah}
-                        alt="foto sebelum"
+                        alt="foto sesudah"
+                        onClick={() => this.setState({ popupSesudah: true })}
                       />
                     )}
                     <Carousel.Caption>
@@ -453,12 +458,47 @@ class DetailLaporan extends React.Component {
                         <FaImage />
                       </div>
                     ) : (
-                      <img alt="foto sebelum" src={this.state.fotoSebelum} />
+                      <img
+                        alt="foto sebelum"
+                        src={this.state.fotoSebelum}
+                        onClick={() => this.setState({ popupSebelum: true })}
+                      />
                     )}
                   </Col>
                 </Row>
               </Container>
             )}
+
+            <div
+              className={
+                this.state.popupSebelum
+                  ? "detaillaporan-popup"
+                  : "detaillaporan-popdown"
+              }
+            >
+              <h2>
+                <FaTimes
+                  onClick={() => this.setState({ popupSebelum: false })}
+                />
+              </h2>
+              <img alt="foto sebelum" src={this.state.fotoSebelum} />
+            </div>
+
+            <div
+              className={
+                this.state.popupSesudah
+                  ? "detaillaporan-popup"
+                  : "detaillaporan-popdown"
+              }
+            >
+              <h2>
+                <FaTimes
+                  onClick={() => this.setState({ popupSesudah: false })}
+                />
+              </h2>
+              <img alt="foto sebelum" src={this.state.fotoSesudah} />
+            </div>
+
             <Container fluid className="detaillaporan-status">
               <Row>
                 {this.state.status === "diterima" ? (
