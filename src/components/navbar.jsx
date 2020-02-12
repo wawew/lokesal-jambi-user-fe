@@ -117,7 +117,10 @@ const Navbar = props => {
           </h5>
           <h6>Keluhkan</h6>
         </Col>
-        <Col className={props.berita ? "navbar-color" : ""}>
+        <Col
+          className={props.berita ? "navbar-color" : ""}
+          onClick={() => props.history.push("/berita")}
+        >
           <h5>
             <FaNewspaper />
           </h5>

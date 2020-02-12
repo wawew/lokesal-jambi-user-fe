@@ -6,6 +6,11 @@ import { store } from "../store/store";
 import Header from "../components/header";
 import Navbar from "../components/navbar";
 import Widget from "../components/widget";
+import DaftarLaporan from "../components/daftarLaporan";
+import "../styles/laporan.css";
+import moment from "moment";
+import "moment-timezone";
+import "moment/locale/id";
 
 class Beranda extends React.Component {
   state = {
@@ -14,12 +19,19 @@ class Beranda extends React.Component {
     cuaca: "",
     suhu: "",
     kelembapan: "",
-    loadingWidget: true,
+    loadingWidget: false,
     daftarBerita: [],
-    loadingBerita: true
+    loadingBerita: false,
+    daftarLaporan: [],
+    loadingLaporan: false
   };
 
   componentDidMount = () => {
+    this.setState({
+      loadingWidget: true,
+      loadingLaporan: true,
+      loadingBerita: true
+    });
     // Get data untuk widget
     const request = {
       method: "get",
@@ -36,11 +48,36 @@ class Beranda extends React.Component {
         loadingWidget: false
       });
     });
+    // Get data untuk keluhan
+    const requestLaporan = {
+      method: "get",
+      url: `${store.getState().urlBackend}/keluhan?kota=${
+        store.getState().namaKota
+      }&halaman=1&per_halaman=3`,
+      headers: { "Content-Type": "application/json" }
+    };
+    axios(requestLaporan)
+      .then(response => {
+        this.setState({
+          daftarLaporan: response.data.daftar_keluhan,
+          loadingLaporan: false
+        });
+      })
+      .catch(() => this.setState({ loadingLaporan: false }));
     // Get data untuk berita
-    this.setState({
-      daftarBerita: [],
-      loadingBerita: false
-    });
+    const requestBerita = {
+      method: "get",
+      url: `${store.getState().newsApiUrl}${store.getState().newsApiKey}`,
+      headers: { "Content-Type": "application/json" }
+    };
+    axios(requestBerita)
+      .then(response => {
+        this.setState({
+          daftarBerita: response.data.articles,
+          loadingBerita: false
+        });
+      })
+      .catch(() => this.setState({ loadingBerita: false }));
   };
 
   render() {
@@ -84,6 +121,114 @@ class Beranda extends React.Component {
               )}
             </Col>
           </Row>
+        </Container>
+        <Container
+          fluid
+          className="laporan-daftar"
+          style={{ paddingBottom: "5px" }}
+        >
+          <Row>
+            <Col>
+              <h2>LAPORAN TERKINI</h2>
+            </Col>
+            <Col xs="auto">
+              <h6 onClick={() => this.props.history.push("/laporan")}>
+                Lihat Semua
+              </h6>
+            </Col>
+          </Row>
+          {this.state.loadingLaporan ? (
+            <Container
+              className="laporan-daftar-spinner"
+              style={{ paddingTop: "15px", paddingBottom: "15px" }}
+            >
+              <Row>
+                <Col>
+                  <Spinner animation="grow" variant="success" />
+                </Col>
+              </Row>
+            </Container>
+          ) : (
+            this.state.daftarLaporan.map(item => {
+              return (
+                <DaftarLaporan
+                  id={item.detail_keluhan.id}
+                  foto_sebelum={item.detail_keluhan.foto_sebelum}
+                  nama_depan={item.nama_depan}
+                  nama_belakang={item.nama_belakang}
+                  longitude={item.detail_keluhan.longitude}
+                  latitude={item.detail_keluhan.latitude}
+                  dibuat={item.detail_keluhan.dibuat}
+                  status={item.detail_keluhan.status}
+                  anonim={item.detail_keluhan.anonim}
+                />
+              );
+            })
+          )}
+        </Container>
+        <Container fluid className="laporan-daftar">
+          <Row>
+            <Col>
+              <h2>BERITA TERKINI</h2>
+            </Col>
+            <Col xs="auto">
+              <h6 onClick={() => this.props.history.push("/berita")}>
+                Lihat Semua
+              </h6>
+            </Col>
+          </Row>
+          {this.state.loadingBerita ? (
+            <Container className="laporan-daftar-spinner">
+              <Row>
+                <Col>
+                  <Spinner animation="grow" variant="success" />
+                </Col>
+              </Row>
+            </Container>
+          ) : (
+            this.state.daftarBerita.slice(0, 1).map(item => {
+              return (
+                <a href={item.url}>
+                  <Container
+                    style={{ borderTop: "solid 1px rgb(220, 220, 220)" }}
+                  >
+                    <Row style={{ paddingTop: "15px", paddingBottom: "15px" }}>
+                      <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
+                        <img
+                          alt="foto berita"
+                          src={item.urlToImage}
+                          style={{
+                            maxHeight: "150px",
+                            objectFit: "cover",
+                            width: "100%",
+                            borderRadius: "10px"
+                          }}
+                        />
+                        <h2
+                          style={{
+                            marginTop: "15px",
+                            marginBottom: "10px",
+                            color: "rgb(80, 120, 80)"
+                          }}
+                        >
+                          {item.title}
+                        </h2>
+                        <p style={{ marginBottom: "5px", color: "black" }}>
+                          {item.description}
+                        </p>
+                        <p style={{ color: "gray", marginBottom: 0 }}>
+                          {item.source.name} &bull;{" "}
+                          {moment(item.publishedAt)
+                            .tz("Asia/Jakarta")
+                            .format("ll")}
+                        </p>
+                      </Col>
+                    </Row>
+                  </Container>
+                </a>
+              );
+            })
+          )}
         </Container>
       </React.Fragment>
     );

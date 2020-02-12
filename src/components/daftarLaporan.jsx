@@ -78,7 +78,7 @@ class DaftarLaporan extends React.Component {
               </div>{" "}
               {moment(`${this.props.dibuat}Z`)
                 .tz("Asia/Jakarta")
-                .format("LL")}{" "}
+                .format("ll")}{" "}
               {moment(`${this.props.dibuat}Z`).format("HH:mm")} WIB
             </h3>
             <h2>
