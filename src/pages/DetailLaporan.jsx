@@ -282,6 +282,10 @@ class DetailLaporan extends React.Component {
           loading: false
         });
         this.props.getLokasi([response.data.longitude, response.data.latitude]);
+        store.setState({
+          lng: response.data.longitude,
+          lat: response.data.latitude
+        });
       })
       .catch(() => this.setState({ loading: false }));
     // Get data user mendukung atau tidak
@@ -543,7 +547,15 @@ class DetailLaporan extends React.Component {
                 </Row>
               </Container>
             ) : (
-              <NamaLokasi lokasi={this.props.lokasiUser} />
+              <div
+                onClick={() =>
+                  this.props.history.push(
+                    `/laporan/${this.props.match.params.id}/peta`
+                  )
+                }
+              >
+                <NamaLokasi lokasi={this.props.lokasiUser} />
+              </div>
             )}
             <Container fluid className="detaillaporan-keluhan">
               <Row>
