@@ -1,16 +1,16 @@
 import createStore from "unistore";
 import axios from "axios";
 import swal from "sweetalert";
+import Credentials from "../credentials.json";
 
 const initialState = {
   urlBackend: "https://api.lokesal.online",
   mapboxUrl: "https://api.mapbox.com/geocoding/v5/mapbox.places/",
-  mapboxKey:
-    "pk.eyJ1Ijoic3VtYXJub3dpbGx5OTQiLCJhIjoiY2s2NHo0YzlzMDMwMjNscXdzYmo3dDV4cyJ9.bOcW5ZPZob_quslf4RP0sw",
+  mapboxKey: Credentials.mapboxKey,
   newsApiUrl: "https://newsapi.org/v2/top-headlines?country=id&apiKey=",
-  newsApiKey: "1e5a0e4ceb9546ecb4dcfb91a008b874",
+  newsApiKey: Credentials.newsApiKey,
   weatherUrl: "https://api.openweathermap.org/data/2.5/weather",
-  weatherKey: "c33251a944689778c3962d353d4c0fb6",
+  weatherKey: Credentials.weatherKey,
   namaKota: "Jambi",
   tajukKota: "Tanah Pilih Pesako Betuah",
   lng: 0,

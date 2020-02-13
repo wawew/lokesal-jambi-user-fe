@@ -191,7 +191,9 @@ class Beranda extends React.Component {
               return (
                 <a href={item.url}>
                   <Container
-                    style={{ borderTop: "solid 1px rgb(220, 220, 220)" }}
+                    style={{
+                      borderTop: "solid 1px rgb(220, 220, 220)"
+                    }}
                   >
                     <Row style={{ paddingTop: "15px", paddingBottom: "15px" }}>
                       <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
