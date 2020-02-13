@@ -13,6 +13,9 @@ class PerbaruiNama extends React.Component {
     loading: false
   };
 
+  /**
+   * Mengakses backend untuk memperbarui nama depan dan nama belakang user
+   */
   perbarui = () => {
     this.setState({ loading: true });
     const request = {

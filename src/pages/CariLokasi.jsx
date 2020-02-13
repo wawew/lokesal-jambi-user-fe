@@ -2,11 +2,11 @@ import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { store } from "../store/store";
+import { Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { FaMapMarkedAlt, FaSearchLocation, FaSadTear } from "react-icons/fa";
+import "../styles/cariLokasi.css";
 import Kembali from "../components/kembali";
 import NamaLokasi from "../components/namaLokasi";
-import { Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
-import "../styles/cariLokasi.css";
-import { FaMapMarkedAlt, FaSearchLocation, FaSadTear } from "react-icons/fa";
 
 class CariLokasi extends React.Component {
   state = {
@@ -24,6 +24,9 @@ class CariLokasi extends React.Component {
     }
   };
 
+  /**
+   * Mencari lokasi berdasarkan kata kunci
+   */
   cariLokasi = () => {
     this.setState({ loading: true });
     const request = {
@@ -48,6 +51,13 @@ class CariLokasi extends React.Component {
       });
   };
 
+  /**
+   * Menyimpan data longitude dan latitude suatu lokasi
+   * saat user memilih salah satu lokasi hasil pencarian
+   *
+   * @param {array} koordinat Koordinat (longitude dan latitude)
+   * lokasi yang dipilih user
+   */
   clickHasil = koordinat => {
     store.setState({
       lng: koordinat[0],

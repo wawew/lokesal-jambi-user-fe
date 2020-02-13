@@ -19,6 +19,9 @@ class PerbaruiEmail extends React.Component {
     loading: false
   };
 
+  /**
+   * Mengakses backend untuk memperbarui email user
+   */
   perbarui = () => {
     this.setState({ loading: true });
     const request = {

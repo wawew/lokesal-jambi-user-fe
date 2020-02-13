@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
 import swal from "sweetalert";
-import { store, actions } from "../store/store";
 import moment from "moment";
 import "moment-timezone";
 import "moment/locale/id";
 import { withRouter } from "react-router-dom";
+import { connect } from "unistore/react";
+import { store, actions } from "../store/store";
 import {
   Container,
   Row,
@@ -35,7 +36,6 @@ import "../styles/kembali.css";
 import "../styles/detailLaporan.css";
 import NamaLokasi from "../components/namaLokasi";
 import Komentar from "../components/komentar";
-import { connect } from "unistore/react";
 
 class DetailLaporan extends React.Component {
   state = {
@@ -65,6 +65,11 @@ class DetailLaporan extends React.Component {
     popupSesudah: false
   };
 
+  /**
+   * Mengakses backend untuk mengirim ulasan puas atau tidak puas
+   *
+   * @param {string} ulasan Ulasan yang dipilih user (puas atau tidak puas)
+   */
   kirimUlasan = ulasan => {
     const request = {
       method: "put",
@@ -91,6 +96,9 @@ class DetailLaporan extends React.Component {
       });
   };
 
+  /**
+   * Menambah atau mengurangi dukungan ketika user memilih tombol dukung
+   */
   tambahDukungan = () => {
     if (localStorage.getItem("token") !== null) {
       const request = {
@@ -133,6 +141,9 @@ class DetailLaporan extends React.Component {
     }
   };
 
+  /**
+   * Mengakses backend untuk menambahkan komentar
+   */
   kirimKomentar = () => {
     if (localStorage.getItem("token") !== null) {
       this.setState({
@@ -186,6 +197,9 @@ class DetailLaporan extends React.Component {
     }
   };
 
+  /**
+   * Mengakses backend untuk mendapatkan daftar komentar sebelumnya
+   */
   lihatKomentar = () => {
     this.setState({ loadingLihatKomentar: true });
     const requestKomentar = {
@@ -212,6 +226,11 @@ class DetailLaporan extends React.Component {
       .catch(() => this.setState({ loadingLihatKomentar: false }));
   };
 
+  /**
+   * Menambahkan jumlah laporan suatu komentar
+   *
+   * @param {number} id ID komentar yang dilaporkan
+   */
   laporkanKomentar = id => {
     swal({
       title: "Anda yakin mau melaporkan komentar ini?",
@@ -288,6 +307,7 @@ class DetailLaporan extends React.Component {
         });
       })
       .catch(() => this.setState({ loading: false }));
+
     // Get data user mendukung atau tidak
     if (localStorage.getItem("token") !== null) {
       const requestDukung = {
@@ -321,6 +341,7 @@ class DetailLaporan extends React.Component {
           }
         });
     }
+
     // Get data daftar komentar
     const requestKomentar = {
       method: "get",

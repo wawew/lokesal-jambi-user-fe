@@ -15,6 +15,10 @@ import {
 import swal from "sweetalert";
 
 const Navbar = props => {
+  /**
+   * Pindah ke halaman keluhkan dan ada proses pengecekan
+   * status aktif dan verifikasi user
+   */
   const buttonKeluhkan = () => {
     if (localStorage.getItem("token") === null) {
       swal({

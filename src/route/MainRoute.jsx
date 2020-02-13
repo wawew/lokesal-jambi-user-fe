@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "unistore/react";
-import { store } from "../store/store";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { store } from "../store/store";
 import Beranda from "../pages/Beranda";
 import Masuk from "../pages/Masuk";
 import Daftar from "../pages/Daftar";

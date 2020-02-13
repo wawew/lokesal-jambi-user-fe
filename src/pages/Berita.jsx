@@ -1,13 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
-import { store } from "../store/store";
-import Header from "../components/header";
-import Navbar from "../components/navbar";
 import moment from "moment";
 import "moment-timezone";
 import "moment/locale/id";
+import { store } from "../store/store";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import "../styles/laporan.css";
+import Header from "../components/header";
+import Navbar from "../components/navbar";
 
 class Berita extends React.Component {
   state = {

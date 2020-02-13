@@ -1,21 +1,19 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
+import "moment-timezone";
+import "moment/locale/id";
+import { store } from "../store/store";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import "../styles/widget.css";
-import { store } from "../store/store";
+import "../styles/laporan.css";
 import Header from "../components/header";
 import Navbar from "../components/navbar";
 import Widget from "../components/widget";
 import DaftarLaporan from "../components/daftarLaporan";
-import "../styles/laporan.css";
-import moment from "moment";
-import "moment-timezone";
-import "moment/locale/id";
 
 class Beranda extends React.Component {
   state = {
-    weatherUrl: "https://api.openweathermap.org/data/2.5/weather",
-    weatherKey: "c33251a944689778c3962d353d4c0fb6",
     cuaca: "",
     suhu: "",
     kelembapan: "",
@@ -32,12 +30,13 @@ class Beranda extends React.Component {
       loadingLaporan: true,
       loadingBerita: true
     });
+
     // Get data untuk widget
     const request = {
       method: "get",
-      url: `${this.state.weatherUrl}?APPID=${this.state.weatherKey}&q=${
-        store.getState().namaKota
-      }&units=metric`,
+      url: `${store.getState().weatherUrl}?APPID=${
+        store.getState().weatherKey
+      }&q=${store.getState().namaKota}&units=metric`,
       headers: { "Content-Type": "application/json" }
     };
     axios(request).then(response => {
@@ -48,6 +47,7 @@ class Beranda extends React.Component {
         loadingWidget: false
       });
     });
+
     // Get data untuk keluhan
     const requestLaporan = {
       method: "get",
@@ -64,6 +64,7 @@ class Beranda extends React.Component {
         });
       })
       .catch(() => this.setState({ loadingLaporan: false }));
+
     // Get data untuk berita
     const requestBerita = {
       method: "get",

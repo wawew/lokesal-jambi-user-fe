@@ -4,30 +4,36 @@ import swal from "sweetalert";
 
 const initialState = {
   urlBackend: "https://api.lokesal.online",
-  logoKota:
-    "https://jambikota.go.id/new/wp-content/uploads/Logojmb_edited2.jpg",
-  namaKota: "Jambi",
-  tajukKota: "Tanah Pilih Pesako Betuah",
   mapboxUrl: "https://api.mapbox.com/geocoding/v5/mapbox.places/",
   mapboxKey:
     "pk.eyJ1Ijoic3VtYXJub3dpbGx5OTQiLCJhIjoiY2s2NHo0YzlzMDMwMjNscXdzYmo3dDV4cyJ9.bOcW5ZPZob_quslf4RP0sw",
-  lokasiUser: "",
-  loadingLokasiUser: false,
+  newsApiUrl: "https://newsapi.org/v2/top-headlines?country=id&apiKey=",
+  newsApiKey: "1e5a0e4ceb9546ecb4dcfb91a008b874",
+  weatherUrl: "https://api.openweathermap.org/data/2.5/weather",
+  weatherKey: "c33251a944689778c3962d353d4c0fb6",
+  namaKota: "Jambi",
+  tajukKota: "Tanah Pilih Pesako Betuah",
   lng: 0,
   lat: 0,
+  lokasiUser: "",
+  loadingLokasiUser: false,
   isiKeluhan: "",
   anonim: false,
   foto: null,
   uriFoto: "",
   linkFoto: "",
-  namaFoto: "",
-  newsApiUrl: "https://newsapi.org/v2/top-headlines?country=id&apiKey=",
-  newsApiKey: "1e5a0e4ceb9546ecb4dcfb91a008b874"
+  namaFoto: ""
 };
 
 export const store = createStore(initialState);
 
 export const actions = store => ({
+  /**
+   * Mendapatkan nama lokasi berdasarkan longitude dan latitude
+   *
+   * @param {object} state Default state di unistore
+   * @param {array} lonlat Longitude dan latitude suatu lokasi
+   */
   getLokasi: (state, lonlat) => {
     store.setState({
       loadingLokasiUser: true,

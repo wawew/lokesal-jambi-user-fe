@@ -19,6 +19,10 @@ class Masuk extends React.Component {
     loading: false
   };
 
+  /**
+   * Mengakses backend untuk mendapatkan token dan data-data lainnya
+   * yang digunakan untuk masuk sebagai user
+   */
   masuk = () => {
     this.setState({ loading: true });
     const request = {
