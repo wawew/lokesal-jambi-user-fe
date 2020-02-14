@@ -5,11 +5,11 @@ import Credentials from "../credentials.json";
 
 const initialState = {
   urlBackend: "https://api.lokesal.online",
-  mapboxUrl: "https://api.mapbox.com/geocoding/v5/mapbox.places/",
+  mapboxUrl: Credentials.mapboxUrl,
   mapboxKey: Credentials.mapboxKey,
-  newsApiUrl: "https://newsapi.org/v2/top-headlines?country=id&apiKey=",
+  newsApiUrl: Credentials.newsApiUrl,
   newsApiKey: Credentials.newsApiKey,
-  weatherUrl: "https://api.openweathermap.org/data/2.5/weather",
+  weatherUrl: Credentials.weatherUrl,
   weatherKey: Credentials.weatherKey,
   namaKota: "Jambi",
   tajukKota: "Tanah Pilih Pesako Betuah",
