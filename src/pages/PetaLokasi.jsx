@@ -18,11 +18,17 @@ class PetaLokasi extends React.Component {
     zoom: 16
   };
 
+  /**
+   * Memilih lokasi di peta yang kemudian akan ditampilkan di halaman keluhkan
+   */
   clickButton = () => {
     store.setState({ lng: this.state.lng, lat: this.state.lat });
     this.props.history.push("/keluhkan");
   };
 
+  /**
+   * Menentukan lokasi saat ini dan menampilkannya di peta
+   */
   clickButtonKanan = () => {
     navigator.geolocation.getCurrentPosition(position =>
       this.setState(

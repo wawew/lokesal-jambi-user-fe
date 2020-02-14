@@ -29,6 +29,9 @@ class Daftar extends React.Component {
     loading: false
   };
 
+  /**
+   * Mengirim data user ke backend saat user mendaftar
+   */
   daftar = () => {
     this.setState({ loading: true });
     const request = {

@@ -17,6 +17,11 @@ class UnggahFoto extends React.Component {
     loading: false
   };
 
+  /**
+   * Mengubah state foto berdasarkan file yang dipilih user
+   *
+   * @param {object} event file foto yang dipilih user
+   */
   ubahFoto = event => {
     const fileFoto = event.target.files[0];
     if (fileFoto) {
@@ -46,6 +51,9 @@ class UnggahFoto extends React.Component {
     }
   };
 
+  /**
+   * Menghapus url foto di database
+   */
   hapusFoto = () => {
     this.setState({ loading: true });
     const request = {
@@ -82,6 +90,9 @@ class UnggahFoto extends React.Component {
       });
   };
 
+  /**
+   * Mengunggah foto ke firebase dan menyimpan url foto di database
+   */
   unggahFoto = () => {
     this.setState({ loading: true });
     const link = `${moment().format()}_${this.state.foto.name}`;
@@ -141,6 +152,9 @@ class UnggahFoto extends React.Component {
     );
   };
 
+  /**
+   * Membatalkan pemilihan foto yang akan diunggah
+   */
   batal = () => {
     document.querySelector("#profil-unggahfoto").value = "";
     this.setState({ foto: null, loading: true });

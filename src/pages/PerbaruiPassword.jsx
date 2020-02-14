@@ -23,6 +23,9 @@ class PerbaruiPassword extends React.Component {
     loading: false
   };
 
+  /**
+   * Mengakses backend untuk memperbarui password user
+   */
   perbarui = () => {
     this.setState({ loading: true });
     const request = {

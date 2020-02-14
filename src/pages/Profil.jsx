@@ -20,6 +20,25 @@ class Profil extends React.Component {
     loading: false
   };
 
+  /**
+   * Menghapus token dan data-data lainnya di local storage
+   */
+  keluar = () => {
+    swal({
+      title: "Anda yakin mau keluar?",
+      icon: "warning",
+      buttons: ["Tidak", "Ya"],
+      dangerMode: "Ya"
+    }).then(willDelete => {
+      if (willDelete) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("terverifikasi");
+        localStorage.removeItem("id");
+        this.props.history.push("/masuk");
+      }
+    });
+  };
+
   componentDidMount = () => {
     if (localStorage.getItem("token") === null) {
       this.props.history.push("/masuk");
@@ -61,22 +80,6 @@ class Profil extends React.Component {
           }
         });
     }
-  };
-
-  keluar = () => {
-    swal({
-      title: "Anda yakin mau keluar?",
-      icon: "warning",
-      buttons: ["Tidak", "Ya"],
-      dangerMode: "Ya"
-    }).then(willDelete => {
-      if (willDelete) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("terverifikasi");
-        localStorage.removeItem("id");
-        this.props.history.push("/masuk");
-      }
-    });
   };
 
   render() {

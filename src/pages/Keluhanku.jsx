@@ -18,6 +18,9 @@ class Keluhanku extends React.Component {
     loadingSelanjutnya: false
   };
 
+  /**
+   * Mengakses backend untuk mendapatkan data laporan sebelumnya
+   */
   lihatLaporanSebelumnya = () => {
     this.setState({ loadingSelanjutnya: true });
     const requestLaporan = {

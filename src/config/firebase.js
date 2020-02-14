@@ -1,16 +1,17 @@
 import firebase from "firebase/app";
 import "firebase/storage";
+import Credentials from "../credentials.json";
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyAg4pNyc-MZhax5FgMoylmE1v2liSwoKRk",
-  authDomain: "lokesal-jambi-admin-fe.firebaseapp.com",
-  databaseURL: "https://lokesal-jambi-admin-fe.firebaseio.com",
-  projectId: "lokesal-jambi-admin-fe",
-  storageBucket: "lokesal-jambi-admin-fe.appspot.com",
-  messagingSenderId: "893065561983",
-  appId: "1:893065561983:web:e2f9bf0dc01075b9c4fc4a",
-  measurementId: "G-CCJDZEBWVB"
+  apiKey: Credentials.apiKey,
+  authDomain: Credentials.authDomain,
+  databaseURL: Credentials.databaseURL,
+  projectId: Credentials.projectId,
+  storageBucket: Credentials.storageBucket,
+  messagingSenderId: Credentials.messagingSenderId,
+  appId: Credentials.appId,
+  measurementId: Credentials.measurementId
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

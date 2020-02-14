@@ -18,6 +18,9 @@ class PerbaruiTelepon extends React.Component {
     loading: false
   };
 
+  /**
+   * Mengakses backend untuk memperbarui nomor telepon user
+   */
   perbarui = () => {
     this.setState({ loading: true });
     const request = {

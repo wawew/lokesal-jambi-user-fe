@@ -16,6 +16,11 @@ import axios from "axios";
 class Keluhkan extends React.Component {
   state = { loading: false };
 
+  /**
+   * Mengubah state foto yang akan diunggah
+   *
+   * @param {object} event Object yang diterima saat user memilih foto
+   */
   ubahFoto = event => {
     store.setState({ uriFoto: "" });
     const fileFoto = event.target.files[0];
@@ -46,6 +51,9 @@ class Keluhkan extends React.Component {
     }
   };
 
+  /**
+   * Mengirim data keluhan baru untuk disimpan di database
+   */
   kirimKeluhan = () => {
     this.setState({ loading: true });
     if (this.props.isiKeluhan === "") {
