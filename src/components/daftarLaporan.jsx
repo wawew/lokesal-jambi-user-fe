@@ -48,6 +48,8 @@ class DaftarLaporan extends React.Component {
               <div className="daftarlaporan-gambarkosong">
                 <FaImage />
               </div>
+            ) : this.props.status === "selesai" ? (
+              <img alt="foto" src={this.props.foto_sesudah} />
             ) : (
               <img alt="foto" src={this.props.foto_sebelum} />
             )}

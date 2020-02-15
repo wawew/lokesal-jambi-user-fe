@@ -136,6 +136,7 @@ class Keluhanku extends React.Component {
                 <DaftarLaporan
                   id={item.id}
                   foto_sebelum={item.foto_sebelum}
+                  foto_sesudah={item.foto_sesudah}
                   nama_depan={item.nama_depan}
                   nama_belakang={item.nama_belakang}
                   longitude={item.longitude}

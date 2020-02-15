@@ -45,6 +45,11 @@ class PerbaruiPassword extends React.Component {
         this.setState({ loading: false });
         localStorage.removeItem("token");
         localStorage.removeItem("terverifikasi");
+        swal(
+          "Perbarui Password Berhasil!",
+          "Silahkan masuk menggunakan password baru anda.",
+          "success"
+        );
         this.props.history.push("/masuk");
       })
       .catch(error => {
