@@ -172,6 +172,7 @@ class Laporan extends React.Component {
                 <DaftarLaporan
                   id={item.detail_keluhan.id}
                   foto_sebelum={item.detail_keluhan.foto_sebelum}
+                  foto_sesudah={item.detail_keluhan.foto_sesudah}
                   nama_depan={item.nama_depan}
                   nama_belakang={item.nama_belakang}
                   longitude={item.detail_keluhan.longitude}
